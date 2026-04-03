@@ -603,14 +603,7 @@ function Contact() {
             >
               <Mail size={17} /> Email
             </a>
-            <a href="https://github.com/kevin" target="_blank" rel="noopener noreferrer"
-              style={{ ...btn, background: "#1a2332", color: "#cbd5e1", border: "1px solid #1e293b" }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#1e293b")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "#1a2332")}
-            >
-              <GithubIcon size={17} /> GitHub
-            </a>
-            <a href="https://linkedin.com/in/kevin" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.linkedin.com/in/kevinvinograd" target="_blank" rel="noopener noreferrer"
               style={{ ...btn, background: "#1a2332", color: "#cbd5e1", border: "1px solid #1e293b" }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "#1e293b")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "#1a2332")}
