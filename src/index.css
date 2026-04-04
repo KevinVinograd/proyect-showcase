@@ -1,15 +1,79 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
-  --color-surface: #0b1121;
-  --color-surface-2: #111827;
-  --color-surface-3: #1a2332;
-  --color-border: #1e293b;
-  --color-border-hover: #334155;
-  --color-muted: #64748b;
-  --color-subtle: #94a3b8;
+  /* — FONTS — */
+  --font-heading: "Futura Now Text", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "RM Neue", "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  /* — TYPE SCALE — */
+  --text-hero: 52px;
+  --text-section: 30px;
+  --text-contact: 34px;
+  --text-portfolio-title: 22px;
+  --text-subheadline: 19px;
+  --text-step-title: 18px;
+  --text-card-title: 17px;
+  --text-body: 15px;
+  --text-secondary: 14px;
+  --text-badge: 13px;
+  --text-caption: 12px;
+  --text-label: 10px;
+
+  /* — COLORS — */
+  --color-background: #080c16;
+  --color-surface-1: rgba(255, 255, 255, 0.015);
+  --color-surface-2: rgba(255, 255, 255, 0.035);
+  --color-foreground-primary: #ffffff;
+  --color-foreground-strong: #f1f5f9;
+  --color-foreground-body: #8893a8;
+  --color-foreground-dim: #475569;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-hover: rgba(255, 255, 255, 0.12);
+  --color-border-subtle: rgba(255, 255, 255, 0.04);
+  --color-accent: #ffffff;
+  --color-accent-foreground: #080c16;
+
+  /* — SPACING — */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-9: 36px;
+  --sp-10: 40px;
+  --sp-11: 44px;
+  --sp-12: 48px;
+  --sp-20: 80px;
+  --sp-25: 100px;
+  --sp-30: 120px;
+  --sp-35: 140px;
+  --sp-45: 180px;
+
+  /* — RADIUS — */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+
+  /* — LAYOUT DIMENSIONS — */
+  --container-content: 820px;
+  --container-hero: 940px;
+  --container-subheadline: 560px;
+  --container-contact-title: 620px;
+  --container-contact-sub: 480px;
+  --grid-step: 56px;
+  --badge-px: 14px;
+  --badge-py: 5px;
+  --reveal-margin: -100px;
+  --step-number-size: 44px;
+  --grid-portfolio: 1fr 1fr 1.3fr;
+}
+
+/* — UTILITY CLASSES (token-driven) — */
+.grid-portfolio {
+  grid-template-columns: var(--grid-portfolio);
 }
 
 html {
@@ -19,10 +83,13 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-surface);
-  color: var(--color-subtle);
-  font-family: var(--font-sans);
+  background: var(--color-background);
+  color: var(--color-foreground-body);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
