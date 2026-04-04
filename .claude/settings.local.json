@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Agent",
+      "TodoWrite",
+      "WebSearch",
+      "WebFetch",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git branch:*)",
+      "Bash(git show:*)",
+      "Bash(ls:*)",
+      "Bash(npm run:*)",
+      "Bash(npm test:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(tsc:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(del /s:*)",
+      "Bash(format:*)"
+    ]
+  }
+}
