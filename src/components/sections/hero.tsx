@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button"
 export function Hero() {
   return (
     <section
-      className="pt-[var(--sp-45)] pb-[var(--sp-35)] border-b border-[var(--color-border-subtle)]"
+      className="pt-[var(--sp-45)] pb-[var(--sp-35)] max-md:pt-[var(--sp-30)] max-md:pb-[var(--sp-20)] border-b border-[var(--color-border-subtle)]"
     >
       <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
         <h1
-          className="font-[var(--font-heading)] text-[length:var(--text-hero)] font-[800] leading-[1.1] tracking-[-0.01em] text-[var(--color-foreground-primary)] mb-[var(--sp-6)]"
+          className="font-[var(--font-heading)] text-[length:var(--text-hero)] max-md:text-[length:var(--text-contact)] font-[800] leading-[1.1] tracking-[-0.01em] text-[var(--color-foreground-primary)] mb-[var(--sp-6)]"
         >
           Si tu operación funciona porque alguien se acuerda de hacer las cosas,
           es cuestión de tiempo
@@ -18,7 +18,7 @@ export function Hero() {
           Construimos software a medida para que tu equipo deje de ser el
           sistema.
         </p>
-        <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] items-center">
+        <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] items-center max-md:flex-col max-md:items-stretch">
           <Button asChild>
             <a href="#contacto">Hablemos</a>
           </Button>

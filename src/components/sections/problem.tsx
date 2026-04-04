@@ -7,8 +7,8 @@ const bullets = [
 
 export function Problem() {
   return (
-    <section className="py-[var(--sp-30)] border-b border-[var(--color-border-subtle)]">
-      <h2 className="font-[var(--font-heading)] text-[length:var(--text-section)] font-[700] text-[var(--color-foreground-primary)] tracking-[0] mb-[var(--sp-12)] leading-[1.2]">
+    <section className="py-[var(--sp-30)] max-md:py-[var(--sp-20)] border-b border-[var(--color-border-subtle)]">
+      <h2 className="font-[var(--font-heading)] text-[length:var(--text-section)] max-md:text-[length:var(--text-portfolio-title)] font-[700] text-[var(--color-foreground-primary)] tracking-[0] mb-[var(--sp-12)] leading-[1.2]">
         Esto pasa todos los días en equipos que operan sin sistema
       </h2>
       <ul className="list-none flex flex-col gap-[var(--sp-2)]">

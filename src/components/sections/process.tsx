@@ -23,15 +23,15 @@ const steps = [
 
 export function Process() {
   return (
-    <section className="py-[var(--sp-30)] border-b border-[var(--color-border-subtle)]">
-      <h2 className="font-[var(--font-heading)] text-[length:var(--text-section)] font-[700] text-[var(--color-foreground-primary)] tracking-[0] mb-[var(--sp-12)] leading-[1.2]">
+    <section className="py-[var(--sp-30)] max-md:py-[var(--sp-20)] border-b border-[var(--color-border-subtle)]">
+      <h2 className="font-[var(--font-heading)] text-[length:var(--text-section)] max-md:text-[length:var(--text-portfolio-title)] font-[700] text-[var(--color-foreground-primary)] tracking-[0] mb-[var(--sp-12)] leading-[1.2]">
         Cómo trabajamos
       </h2>
       <div className="flex flex-col">
         {steps.map((step, i) => (
           <div
             key={step.number}
-            className={`grid grid-cols-[var(--grid-step)_1fr] gap-[var(--sp-6)] py-[var(--sp-9)] items-start ${
+            className={`grid grid-cols-[var(--grid-step)_1fr] max-md:grid-cols-[var(--step-number-size)_1fr] gap-[var(--sp-6)] max-md:gap-[var(--sp-4)] py-[var(--sp-9)] items-start ${
               i < steps.length - 1
                 ? "border-b border-[var(--color-border-subtle)]"
                 : ""
