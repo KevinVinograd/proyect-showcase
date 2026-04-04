@@ -172,12 +172,33 @@ No other spacing values allowed. Every layout value MUST reference a token. If a
 | `--radius-lg` | 8px | Cards |
 | `--radius-xl` | 10px | Portfolio cards |
 
+### 6.5 Layout Dimensions
+
+| Token | Value | Usage |
+|---|---|---|
+| `--container-content` | 820px | Main content container max-width |
+| `--container-hero` | 940px | Hero section container max-width |
+| `--container-subheadline` | 560px | Hero subheadline max-width |
+| `--container-contact-title` | 620px | Contact heading max-width |
+| `--container-contact-sub` | 480px | Contact subtext max-width |
+| `--grid-step` | 56px | Process step number column width |
+| `--grid-portfolio` | 1fr 1fr 1.3fr | Portfolio internal column template (apply via CSS utility class, not inline) |
+| `--badge-px` | 14px | Badge horizontal padding |
+| `--badge-py` | 5px | Badge vertical padding |
+| `--reveal-margin` | -100px | Scroll reveal viewport offset |
+
+### 6.6 Component Sizes
+
+| Token | Value | Usage |
+|---|---|---|
+| `--step-number-size` | 44px | Step number circle width/height (same as sp-11) |
+
 ## 7. Layout
 
 | Rule | Token | Value |
 |---|---|---|
-| Content max-width | — | 820px |
-| Hero max-width | — | 940px |
+| Content max-width | container-content | 820px |
+| Hero max-width | container-hero | 940px |
 | Container padding-x | sp-6 | 24px |
 | Section padding-y | sp-30 | 120px |
 | Tech section padding-y | sp-20 | 80px |
@@ -246,7 +267,7 @@ Result column uses foreground-strong at text-body/600. Problem/Solution use fore
 
 | Property | Value |
 |---|---|
-| Padding | 5px × 14px |
+| Padding | badge-py × badge-px |
 | Background | surface-1 |
 | Border | 1px border |
 | Radius | radius-sm |

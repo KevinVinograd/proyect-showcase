@@ -259,6 +259,24 @@ git commit -m "chore: add shadcn button, card, badge primitives"
   --radius-md: 6px;
   --radius-lg: 8px;
   --radius-xl: 10px;
+
+  /* — LAYOUT DIMENSIONS — */
+  --container-content: 820px;
+  --container-hero: 940px;
+  --container-subheadline: 560px;
+  --container-contact-title: 620px;
+  --container-contact-sub: 480px;
+  --grid-step: 56px;
+  --badge-px: 14px;
+  --badge-py: 5px;
+  --reveal-margin: -100px;
+  --step-number-size: 44px;
+  --grid-portfolio: 1fr 1fr 1.3fr;
+}
+
+/* — UTILITY CLASSES (token-driven) — */
+.grid-portfolio {
+  grid-template-columns: var(--grid-portfolio);
 }
 
 html {
@@ -337,7 +355,7 @@ export function Hero() {
     <section
       className="pt-[var(--sp-45)] pb-[var(--sp-35)] border-b border-[var(--color-border-subtle)]"
     >
-      <div className="max-w-[940px] mx-auto px-[var(--sp-6)]">
+      <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
         <h1
           className="font-[var(--font-heading)] text-[length:var(--text-hero)] font-[800] leading-[1.1] tracking-[-0.01em] text-[var(--color-foreground-primary)] mb-[var(--sp-6)]"
         >
@@ -345,7 +363,7 @@ export function Hero() {
           es cuestión de tiempo
         </h1>
         <p
-          className="font-[var(--font-body)] text-[length:var(--text-subheadline)] text-[var(--color-foreground-body)] leading-[1.7] max-w-[560px]"
+          className="font-[var(--font-body)] text-[length:var(--text-subheadline)] text-[var(--color-foreground-body)] leading-[1.7] max-w-[var(--container-subheadline)]"
         >
           Construimos software a medida para que tu equipo deje de ser el
           sistema.
@@ -565,13 +583,13 @@ export function Process() {
         {steps.map((step, i) => (
           <div
             key={step.number}
-            className={`grid grid-cols-[56px_1fr] gap-[var(--sp-6)] py-[var(--sp-9)] items-start ${
+            className={`grid grid-cols-[var(--grid-step)_1fr] gap-[var(--sp-6)] py-[var(--sp-9)] items-start ${
               i < steps.length - 1
                 ? "border-b border-[var(--color-border-subtle)]"
                 : ""
             }`}
           >
-            <div className="w-[var(--sp-11)] h-[var(--sp-11)] flex items-center justify-center font-[var(--font-heading)] text-[length:var(--text-body)] font-[700] text-[var(--color-foreground-dim)] border-2 border-[var(--color-border-hover)] rounded-full shrink-0">
+            <div className="w-[var(--step-number-size)] h-[var(--step-number-size)] flex items-center justify-center font-[var(--font-heading)] text-[length:var(--text-body)] font-[700] text-[var(--color-foreground-dim)] border-2 border-[var(--color-border-hover)] rounded-full shrink-0">
               {step.number}
             </div>
             <div>
@@ -675,7 +693,7 @@ export function Portfolio() {
               <h3 className="font-[var(--font-heading)] text-[length:var(--text-portfolio-title)] font-[700] text-[var(--color-foreground-primary)] mb-[var(--sp-8)] tracking-[0] leading-[1.2]">
                 {project.name}
               </h3>
-              <div className="grid grid-cols-[1fr_1fr_1.3fr] gap-[var(--sp-8)] max-md:grid-cols-1 max-md:gap-[var(--sp-5)]">
+              <div className="grid grid-portfolio gap-[var(--sp-8)] max-md:grid-cols-1 max-md:gap-[var(--sp-5)]">
                 <div>
                   <FieldLabel>Problema</FieldLabel>
                   <p className="text-[length:var(--text-secondary)] text-[var(--color-foreground-body)] leading-[1.7]">
@@ -755,7 +773,7 @@ export function Technologies() {
               <Badge
                 key={item}
                 variant="outline"
-                className="font-[var(--font-body)] text-[length:var(--text-badge)] font-[500] px-[14px] py-[5px] bg-[var(--color-surface-1)] border-[var(--color-border)] text-[var(--color-foreground-dim)] rounded-[var(--radius-sm)] transition-[border-color] duration-150 hover:border-[var(--color-border-hover)]"
+                className="font-[var(--font-body)] text-[length:var(--text-badge)] font-[500] px-[var(--badge-px)] py-[var(--badge-py)] bg-[var(--color-surface-1)] border-[var(--color-border)] text-[var(--color-foreground-dim)] rounded-[var(--radius-sm)] transition-[border-color] duration-150 hover:border-[var(--color-border-hover)]"
               >
                 {item}
               </Badge>
@@ -873,11 +891,11 @@ export function Contact() {
       id="contacto"
       className="text-center pt-[var(--sp-35)] pb-[var(--sp-30)] max-md:pt-[var(--sp-25)]"
     >
-      <h2 className="font-[var(--font-heading)] text-[length:var(--text-contact)] font-[700] text-[var(--color-foreground-primary)] tracking-[0] leading-[1.2] max-w-[620px] mx-auto mb-[var(--sp-5)]">
+      <h2 className="font-[var(--font-heading)] text-[length:var(--text-contact)] font-[700] text-[var(--color-foreground-primary)] tracking-[0] leading-[1.2] max-w-[var(--container-contact-title)] mx-auto mb-[var(--sp-5)]">
         Si todos los días repetís algo que debería estar automatizado,
         escribinos.
       </h2>
-      <p className="font-[var(--font-body)] text-[length:var(--text-body)] text-[var(--color-foreground-body)] leading-[1.7] max-w-[480px] mx-auto">
+      <p className="font-[var(--font-body)] text-[length:var(--text-body)] text-[var(--color-foreground-body)] leading-[1.7] max-w-[var(--container-contact-sub)] mx-auto">
         La primera conversación es para entender el problema. Sin compromiso,
         sin presentación de 40 slides.
       </p>
@@ -960,7 +978,7 @@ function Reveal({ children }: { children: ReactNode }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "var(--reveal-margin)" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       {children}
@@ -972,7 +990,7 @@ export default function App() {
   return (
     <>
       <Hero />
-      <div className="max-w-[820px] mx-auto px-[var(--sp-6)]">
+      <div className="max-w-[var(--container-content)] mx-auto px-[var(--sp-6)]">
         <Reveal><Problem /></Reveal>
         <Reveal><WhatWeBuild /></Reveal>
         <Reveal><Process /></Reveal>
