@@ -179,6 +179,9 @@ function resolve(preset: PresetOverrides): ShaderProps {
 
 const RESOLVED: ShaderProps[] = PRESETS.map(resolve)
 
+/** Initial state: hero colors, no wave motion until shader activates */
+const INITIAL_BLEND: ShaderProps = { ...RESOLVED[0], uSpeed: 0 }
+
 /* ─── Interpolation helpers ────────────────────────────── */
 
 function parseHex(hex: string): [number, number, number] {
@@ -220,6 +223,20 @@ function blendPresets(a: ShaderProps, b: ShaderProps, t: number): ShaderProps {
   return result
 }
 
+/** Fast shallow comparison — skips setBlended when nothing meaningful changed */
+function propsEqual(a: ShaderProps, b: ShaderProps): boolean {
+  for (const key of NUMERIC_KEYS) {
+    if (Math.abs((a[key] as number) - (b[key] as number)) > 0.001) return false
+  }
+  for (const key of COLOR_KEYS) {
+    if (a[key] !== b[key]) return false
+  }
+  for (const key of DISCRETE_KEYS) {
+    if (a[key] !== b[key]) return false
+  }
+  return true
+}
+
 /** 0 when section is 1× viewport below, 1 when top reaches 15% from top */
 function sectionProgress(el: HTMLElement): number {
   const rect = el.getBoundingClientRect()
@@ -233,12 +250,18 @@ function sectionProgress(el: HTMLElement): number {
    ═══════════════════════════════════════════════════════════ */
 
 export function ShaderBackground() {
+  const [isMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < 768,
+  )
   const [glSupported] = useState(canWebGL)
-  const [blended, setBlended] = useState<ShaderProps>(RESOLVED[0])
+  const [shaderReady, setShaderReady] = useState(false)
+  const [blended, setBlended] = useState<ShaderProps>(INITIAL_BLEND)
+  const lastBlended = useRef<ShaderProps>(INITIAL_BLEND)
   const [reducedMotion, setReducedMotion] = useState(
     () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   )
 
+  /* ── Reduced-motion listener ── */
   useEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)")
     const onChange = () => setReducedMotion(mql.matches)
@@ -246,11 +269,32 @@ export function ShaderBackground() {
     return () => mql.removeEventListener("change", onChange)
   }, [])
 
+  /* ── Deferred shader mount (desktop only) ── */
+  useEffect(() => {
+    if (isMobile || !glSupported) return
+    let cancelled = false
+    const rafId = requestAnimationFrame(() => {
+      if (cancelled) return
+      if ("requestIdleCallback" in window) {
+        ;(window as any).requestIdleCallback(
+          () => { if (!cancelled) setShaderReady(true) },
+          { timeout: 2000 },
+        )
+      } else {
+        setTimeout(() => { if (!cancelled) setShaderReady(true) }, 100)
+      }
+    })
+    return () => { cancelled = true; cancelAnimationFrame(rafId) }
+  }, [isMobile, glSupported])
+
+  /* ── Scroll-driven blend (only active after shader mounts) ── */
   const smoothPos = useRef(0)
   const targetPos = useRef(0)
   const elCache = useRef<(HTMLElement | null)[]>([])
 
   useEffect(() => {
+    if (!shaderReady) return
+
     let rafId = 0
     let running = false
     let paused = false
@@ -264,7 +308,11 @@ export function ShaderBackground() {
       const fromIdx = Math.floor(pos)
       const toIdx = Math.min(fromIdx + 1, RESOLVED.length - 1)
       const t = pos - fromIdx
-      setBlended(blendPresets(RESOLVED[fromIdx], RESOLVED[toIdx], t))
+      const next = blendPresets(RESOLVED[fromIdx], RESOLVED[toIdx], t)
+      if (!propsEqual(next, lastBlended.current)) {
+        lastBlended.current = next
+        setBlended(next)
+      }
     }
 
     function tick(time: number) {
@@ -280,7 +328,6 @@ export function ShaderBackground() {
         }
         rafId = requestAnimationFrame(tick)
       } else {
-        // Snap to target and stop
         smoothPos.current = targetPos.current
         applyBlend()
         running = false
@@ -311,7 +358,6 @@ export function ShaderBackground() {
       startLoop()
     }
 
-    // Pause when tab is not visible
     const onVisibility = () => {
       if (document.hidden) {
         paused = true
@@ -331,9 +377,13 @@ export function ShaderBackground() {
       document.removeEventListener("visibilitychange", onVisibility)
       cancelAnimationFrame(rafId)
     }
-  }, [])
+  }, [shaderReady])
 
-  if (!glSupported) return <Fallback />
+  /* ── Render ── */
+
+  if (isMobile || !glSupported) return <Fallback />
+
+  if (!shaderReady) return <Fallback />
 
   return (
     <WebGLBoundary fallback={<Fallback />}>
