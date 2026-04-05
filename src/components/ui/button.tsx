@@ -2,6 +2,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { motion, useReducedMotion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
@@ -27,6 +28,39 @@ const buttonVariants = cva(
   }
 )
 
+/* ─── Living glow: static ambient + perimeter wave (default variant only) ─── */
+
+function GlowLayers({ reducedMotion }: { reducedMotion: boolean | null }) {
+  return (
+    <>
+      {/* Static ambient — soft white halo, no animation */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute rounded-full"
+        style={{ inset: "-14px", background: "white", filter: "blur(18px)", opacity: 0.14 }}
+      />
+      {/* Perimeter wave — sole source of motion (CSS rotation) */}
+      {reducedMotion ? (
+        <span
+          aria-hidden
+          className="btn-wave pointer-events-none absolute rounded-full"
+          style={{ inset: "-5px", padding: "3px", filter: "blur(1px)" }}
+        />
+      ) : (
+        <motion.span
+          aria-hidden
+          className="btn-wave pointer-events-none absolute rounded-full"
+          style={{ inset: "-5px", padding: "3px", filter: "blur(1px)", opacity: 0.9 }}
+          variants={{
+            hover: { opacity: 1 },
+            tap: { opacity: 0.3 },
+          }}
+        />
+      )}
+    </>
+  )
+}
+
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
@@ -36,6 +70,30 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+    const isDefault = (variant ?? "default") === "default"
+    const reducedMotion = useReducedMotion()
+
+    if (isDefault) {
+      return (
+        <motion.span
+          className="relative inline-flex overflow-visible"
+          whileHover="hover"
+          whileTap="tap"
+        >
+          <GlowLayers reducedMotion={reducedMotion} />
+          <Comp
+            className={cn(
+              buttonVariants({ variant, size }),
+              "relative z-10",
+              className
+            )}
+            ref={ref}
+            {...props}
+          />
+        </motion.span>
+      )
+    }
+
     return (
       <Comp
         className={cn(

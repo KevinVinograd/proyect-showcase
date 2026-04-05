@@ -238,10 +238,53 @@ body {
   animation: marquee 60s linear infinite;
 }
 
+/* — BUTTON PERIMETER WAVE — */
+@property --glow-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes glow-rotate {
+  to { --glow-angle: 360deg; }
+}
+
+.btn-wave {
+  background:
+    conic-gradient(
+      from var(--glow-angle),
+      transparent 0%,
+      transparent 46%,
+      rgba(255, 255, 255, 0.03) 52%,
+      rgba(255, 255, 255, 0.08) 62%,
+      rgba(255, 255, 255, 0.18) 72%,
+      rgba(255, 255, 255, 0.4) 82%,
+      rgba(255, 255, 255, 0.85) 91%,
+      rgba(255, 255, 255, 0.95) 95%,
+      rgba(255, 255, 255, 0.3) 98%,
+      transparent 100%
+    ),
+    rgba(255, 255, 255, 0.05);
+  animation: glow-rotate 5s linear infinite;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
 /* — REDUCED MOTION — */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation: none;
+  }
+
+  .btn-wave {
+    animation: none;
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 

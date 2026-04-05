@@ -81,7 +81,7 @@ export function Contact() {
             <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] max-md:flex-col max-md:items-stretch">
               <Button asChild size="xl">
                 <a href="mailto:hola@kij.dev">
-                  Agendar una conversación
+                  Charlemos
                 </a>
               </Button>
             </div>
@@ -124,7 +124,7 @@ export function Contact() {
             <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] max-md:flex-col max-md:items-stretch">
               <Button asChild size="xl">
                 <a href="mailto:hola@kij.dev">
-                  Agendar una conversación
+                  Charlemos
                 </a>
               </Button>
             </div>
