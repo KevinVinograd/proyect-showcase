@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useSpring, useReducedMotion, type MotionValue } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
+import { VIEWPORT_MARGIN, SCROLL_SPRING, useScrollFadeIn } from "@/lib/motion"
 
 const bullets = [
   {
@@ -43,16 +44,15 @@ function PostIt({
   const segStart = FIRST_CARD + index * perCard
   const segEnd = segStart + perCard * 0.3
 
-  const spring = { stiffness: 80, damping: 22 }
   const STEP = 70
   const finalY = index * STEP
 
-  const opacity = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [0, 1]), spring)
-  const scale = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [1.1, 1]), spring)
-  const rotate = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [ROTATIONS[index] + 5, ROTATIONS[index]]), spring)
+  const opacity = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [0, 1]), SCROLL_SPRING)
+  const scale = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [1.1, 1]), SCROLL_SPRING)
+  const rotate = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [ROTATIONS[index] + 5, ROTATIONS[index]]), SCROLL_SPRING)
   const finalX = X_OFFSETS[index]
-  const y = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [finalY - 40, finalY]), spring)
-  const x = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [finalX - 20, finalX]), spring)
+  const y = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [finalY - 40, finalY]), SCROLL_SPRING)
+  const x = useSpring(useTransform(scrollYProgress, [segStart, segEnd], [finalX - 20, finalX]), SCROLL_SPRING)
 
   return (
     <motion.div
@@ -75,15 +75,13 @@ function PostIt({
   )
 }
 
+const CIRCLE_PATH = "M420 8 C550 3, 720 25, 770 70 C810 110, 790 160, 720 185 C640 205, 480 198, 380 195 C250 190, 80 180, 30 135 C-10 95, 20 35, 120 15 C210 0, 340 5, 440 12"
+
 function ClosingText() {
+  const reducedMotion = useReducedMotion()
+
   return (
-    <motion.div
-      className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] text-center"
-      initial={false}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ margin: "-100px" }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
+    <div className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] text-center">
       <div className="relative inline-block">
         <p className="type-h3 text-[var(--color-fg-subtle)] text-shadow-smooth">
           El problema no es tu equipo.
@@ -97,21 +95,31 @@ function ClosingText() {
           viewBox="0 0 800 200"
           fill="none"
         >
-          <motion.path
-            d="M420 8 C550 3, 720 25, 770 70 C810 110, 790 160, 720 185 C640 205, 480 198, 380 195 C250 190, 80 180, 30 135 C-10 95, 20 35, 120 15 C210 0, 340 5, 440 12"
-            stroke="rgba(255,255,255,0.5)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            pathLength={1}
-            strokeDasharray="1"
-            initial={false}
-            whileInView={{ strokeDashoffset: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
-          />
+          {reducedMotion ? (
+            <path
+              d={CIRCLE_PATH}
+              stroke="rgba(255,255,255,0.5)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
+            />
+          ) : (
+            <motion.path
+              d={CIRCLE_PATH}
+              stroke="rgba(255,255,255,0.5)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              pathLength={1}
+              strokeDasharray="1"
+              initial={false}
+              whileInView={{ strokeDashoffset: 0 }}
+              viewport={{ once: true, margin: VIEWPORT_MARGIN.decorative }}
+              transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
+            />
+          )}
         </svg>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -139,45 +147,33 @@ export function Problem() {
   })
 
   // Heading fades in during approach — visible before the section pins
-  const spring = { stiffness: 80, damping: 22 }
-  const headingOpacity = useSpring(useTransform(approachProgress, [0.4, 0.7], [0, 1]), spring)
-  const headingY = useSpring(useTransform(approachProgress, [0.4, 0.7], [20, 0]), spring)
+  const { opacity: headingOpacity, y: headingY } = useScrollFadeIn(approachProgress, [0.4, 0.7])
 
   /* ─── Mobile: vertical list with scroll-driven fade ─── */
   if (isMobile) {
     return (
       <>
         <section id="problems" className="pt-[var(--sp-20)]">
-          <motion.div
-            className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]"
-            initial={false}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ margin: "-100px" }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
+          <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
             <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">El problema</p>
             <h2 className="type-h2 text-fg text-shadow-smooth mb-[var(--sp-10)]">
               Esto pasa todos los días en equipos que operan sin sistema
             </h2>
             <div className="flex flex-col items-center gap-[var(--sp-6)]">
               {bullets.map((item, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={false}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ margin: "-60px" }}
-                  transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.08 }}
-                  style={{ rotate: ROTATIONS[i] }}
+                  style={{ transform: `rotate(${ROTATIONS[i]}deg)` }}
                 >
                   <div className="w-[240px] h-[240px] rounded-sm p-[var(--sp-5)] flex flex-col justify-end bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)]">
                     <p className="type-h5 text-left text-[var(--color-fg-reverse)]">
                       {item.left} {item.right}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </section>
         <ClosingText />
       </>

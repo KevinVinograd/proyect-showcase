@@ -1,5 +1,6 @@
 import { useRef, useState, useLayoutEffect } from "react"
 import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from "framer-motion"
+import { useScrollFadeIn } from "@/lib/motion"
 
 const LINE = "Automatizamos tu operación."
 
@@ -111,6 +112,8 @@ export function Hero() {
   )
   const contentOpacity = useTransform(scrollYProgress, [0.30, 0.42], [1, reducedMotion ? 1 : 0])
 
+  const { opacity: subtitleO, y: subtitleY } = useScrollFadeIn(scrollYProgress, [0.10, 0.20])
+
   /* Reduced motion: static visible hero, no scroll-linked animation */
   if (reducedMotion) {
     return (
@@ -154,13 +157,14 @@ export function Hero() {
               />
             </motion.span>
           </h1>
-          <p
+          <motion.p
             className="absolute left-0 right-0 top-[calc(100%+80px)] max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] max-md:max-w-none max-md:text-left max-md:ml-0 max-md:pr-0"
+            style={{ opacity: subtitleO, y: subtitleY }}
           >
             Planillas, carga manual, WhatsApp.
             <br />
             Lo reemplazamos con software a medida.
-          </p>
+          </motion.p>
         </motion.div>
       </div>
     </section>

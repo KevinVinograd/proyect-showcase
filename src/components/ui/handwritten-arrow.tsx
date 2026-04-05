@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion"
+import { VIEWPORT_MARGIN } from "@/lib/motion"
 
 export function HandwrittenArrow() {
   const reducedMotion = useReducedMotion()
@@ -27,7 +28,7 @@ export function HandwrittenArrow() {
           fill="none"
           initial={false}
           whileInView={{ pathLength: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: VIEWPORT_MARGIN.decorative }}
           transition={{ duration: 1, ease: "easeOut" }}
         />
         {/* Arrowhead left — slightly asymmetric */}
@@ -39,7 +40,7 @@ export function HandwrittenArrow() {
           fill="none"
           initial={false}
           whileInView={{ pathLength: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: VIEWPORT_MARGIN.decorative }}
           transition={{ duration: 0.25, ease: "easeOut", delay: 0.9 }}
         />
         {/* Arrowhead right */}
@@ -51,7 +52,7 @@ export function HandwrittenArrow() {
           fill="none"
           initial={false}
           whileInView={{ pathLength: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: VIEWPORT_MARGIN.decorative }}
           transition={{ duration: 0.25, ease: "easeOut", delay: 0.95 }}
         />
       </svg>

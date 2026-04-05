@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion"
+import { VIEWPORT_MARGIN } from "@/lib/motion"
 
 export function ZigzagDivider() {
   const reducedMotion = useReducedMotion()
@@ -43,7 +44,7 @@ export function ZigzagDivider() {
             strokeLinejoin="round"
             initial={false}
             whileInView={{ pathLength: 1 }}
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{ once: true, margin: VIEWPORT_MARGIN.decorative }}
             transition={{ duration: 1.8, ease: "easeInOut" }}
           />
         )}

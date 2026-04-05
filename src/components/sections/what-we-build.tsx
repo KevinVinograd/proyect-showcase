@@ -1,4 +1,6 @@
-import { motion } from "framer-motion"
+import { useRef } from "react"
+import { motion, useScroll } from "framer-motion"
+import { useScrollFadeIn } from "@/lib/motion"
 
 /* ─── Starburst mask — punches a hole through the card so the shader BG shows ─── */
 const STARBURST_SVG = encodeURIComponent(
@@ -36,16 +38,18 @@ const blocks = [
 ]
 
 export function WhatWeBuild() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  })
+  const { opacity: headingO, y: headingY } = useScrollFadeIn(scrollYProgress, [0.3, 0.6])
+
   return (
-    <section id="servicios" className="py-[var(--sp-30)] max-md:py-[var(--sp-20)]">
+    <section ref={sectionRef} id="servicios" className="py-[var(--sp-30)] max-md:py-[var(--sp-20)]">
       <div className="grid grid-cols-2 gap-[var(--sp-12)] max-md:grid-cols-1 items-start">
         <div className="sticky top-[40%] max-md:static">
-          <motion.div
-            initial={false}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ margin: "-100px" }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
+          <motion.div style={{ opacity: headingO, y: headingY }}>
             <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Qué automatizamos</p>
             <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[1.15] text-shadow-smooth">
               Lo que cambia cuando dejás de operar a mano
@@ -54,27 +58,20 @@ export function WhatWeBuild() {
         </div>
         <div className="flex flex-col gap-[var(--sp-5)]">
           {blocks.map((block) => (
-            <motion.div
+            <div
               key={block.title}
-              initial={false}
-              whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-              viewport={{ margin: "-60px" }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="rounded-sm p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)]"
+              style={CARD_MASK}
             >
-              <div
-                className="rounded-sm p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)]"
-                style={CARD_MASK}
-              >
-                {/* Spacer for the starburst hole */}
-                <div className="h-10 mb-[var(--sp-4)]" />
-                <p className="type-h5 text-left text-[var(--color-fg-reverse)] mb-[var(--sp-2)]">
-                  {block.title}
-                </p>
-                <p className="text-[length:var(--text-body-lg)] text-left text-[var(--color-fg-reverse)] opacity-60 leading-[1.5] tracking-[0]">
-                  {block.body}
-                </p>
-              </div>
-            </motion.div>
+              {/* Spacer for the starburst hole */}
+              <div className="h-10 mb-[var(--sp-4)]" />
+              <p className="type-h5 text-left text-[var(--color-fg-reverse)] mb-[var(--sp-2)]">
+                {block.title}
+              </p>
+              <p className="text-[length:var(--text-body-lg)] text-left text-[var(--color-fg-reverse)] opacity-60 leading-[1.5] tracking-[0]">
+                {block.body}
+              </p>
+            </div>
           ))}
         </div>
       </div>

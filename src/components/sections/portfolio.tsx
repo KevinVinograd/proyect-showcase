@@ -1,4 +1,6 @@
-import { motion } from "framer-motion"
+import { useRef } from "react"
+import { motion, useScroll } from "framer-motion"
+import { useScrollFadeIn } from "@/lib/motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
@@ -45,18 +47,20 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function Portfolio() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  })
+  const { opacity: headingO, y: headingY } = useScrollFadeIn(scrollYProgress, [0.3, 0.6])
+
   return (
     <section
+      ref={sectionRef}
       id="portfolio"
       className="pt-[var(--sp-12)] pb-[var(--sp-30)] max-md:pt-[var(--sp-8)] max-md:pb-[var(--sp-20)]"
     >
-      <motion.div
-        initial={false}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ margin: "-100px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="mb-[var(--sp-12)]"
-      >
+      <motion.div className="mb-[var(--sp-12)]" style={{ opacity: headingO, y: headingY }}>
         <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Casos reales</p>
         <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
           Proyectos que ya operan sin intervención manual
@@ -64,13 +68,7 @@ export function Portfolio() {
       </motion.div>
       <div className="flex flex-col gap-[24px]">
         {projects.map((project) => (
-          <motion.div
-            key={project.name}
-            initial={false}
-            whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-            viewport={{ margin: "-60px" }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
+          <div key={project.name}>
             <Card className="rounded-sm p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)] border-none">
               <CardContent className="p-0 grid grid-cols-2 gap-[var(--sp-8)] max-md:grid-cols-1 max-md:gap-[var(--sp-6)]">
                 <div className="flex flex-col justify-between max-md:gap-[var(--sp-4)]">
@@ -110,7 +108,7 @@ export function Portfolio() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

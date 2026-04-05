@@ -1,5 +1,6 @@
 import { useRef, useState, useLayoutEffect } from "react"
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion"
+import { useScrollFadeIn } from "@/lib/motion"
 
 const steps = [
   {
@@ -46,6 +47,12 @@ export function Process() {
     target: sectionRef,
     offset: ["start start", "end end"],
   })
+
+  const { scrollYProgress: approachProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  })
+  const { opacity: headingO, y: headingY } = useScrollFadeIn(approachProgress, [0.4, 0.7])
 
   const x = useTransform(scrollYProgress, [0.1, 0.9], [0, -travel])
 
@@ -105,10 +112,7 @@ export function Process() {
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         <motion.div
           className="max-w-[var(--container-hero)] mx-auto w-full px-[var(--sp-6)] mb-[40px]"
-          initial={false}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ margin: "-100px" }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          style={{ opacity: headingO, y: headingY }}
         >
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
           <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[52px] text-shadow-smooth">

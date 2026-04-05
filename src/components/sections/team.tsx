@@ -1,5 +1,6 @@
 import { useRef } from "react"
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion"
+import { useScrollFadeIn } from "@/lib/motion"
 
 const members = [
   {
@@ -32,15 +33,17 @@ export function Team() {
     offset: ["start start", "end end"],
   })
 
-  // offset ["start start", "end end"] → progress 0 cuando section-top = viewport-top
-  // Section 350vh → 250vh scroll travel
-  // Fase 1 — Fade-in cascada (0.25 → 0.43): título, card0, card1, card2 (mitad de sección)
-  // Fase 2 — Hold al 100% (~0.43 → 0.70)
-  // Fase 3 — Fade-out cascada (0.70 → 0.84)
-  // Fase 4 — Espacio muerto (0.84 → 1)
+  const { scrollYProgress: approachProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  })
 
-  const titleO = useTransform(scrollYProgress, [0.25, 0.31, 0.70, 0.74], [0, 1, 1, 0])
-  const titleY = useTransform(scrollYProgress, [0.25, 0.31, 0.70, 0.74], [20, 0, 0, -30])
+  // Heading: approach spring fade-in + cascade fade-out
+  const { opacity: approachO, y: approachY } = useScrollFadeIn(approachProgress, [0.4, 0.7])
+  const exitO = useTransform(scrollYProgress, [0.70, 0.74], [1, 0])
+  const exitY = useTransform(scrollYProgress, [0.70, 0.74], [0, -30])
+  const titleO = useTransform(() => approachO.get() * exitO.get())
+  const titleY = useTransform(() => approachY.get() + exitY.get())
 
   const c0O = useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [0, 1, 1, 0])
   const c0Y = useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [40, 0, 0, -40])
