@@ -1,5 +1,5 @@
 import { useRef, useState, useLayoutEffect } from "react"
-import { motion, useScroll, useTransform, type MotionValue } from "framer-motion"
+import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from "framer-motion"
 
 const LINE = "Automatizamos tu operación."
 
@@ -68,6 +68,7 @@ function AnimatedLine({
 }
 
 export function Hero() {
+  const reducedMotion = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLSpanElement>(null)
@@ -98,18 +99,38 @@ export function Hero() {
   })
 
   // — Line: horizontal scroll + letter reveal [0, 30%], fade [52%, 55%] —
-  const x = useTransform(scrollYProgress, [0, 0.30], [0, -travel])
+  const x = useTransform(scrollYProgress, [0, 0.30], [0, reducedMotion ? 0 : -travel])
   const lineProgress = useTransform(scrollYProgress, [0, 0.30], [0, 1])
-  const lineOpacity = useTransform(scrollYProgress, [0.52, 0.55], [1, 0.4])
+  const lineOpacity = useTransform(scrollYProgress, [0.52, 0.55], [1, reducedMotion ? 1 : 0.4])
 
   // — Content holds, then fades out right after line finishes —
   const contentY = useTransform(
     scrollYProgress,
     [0, 0.30, 0.42],
-    [0, 0, -60],
+    [0, 0, reducedMotion ? 0 : -60],
   )
-  const contentOpacity = useTransform(scrollYProgress, [0.30, 0.42], [1, 0])
+  const contentOpacity = useTransform(scrollYProgress, [0.30, 0.42], [1, reducedMotion ? 1 : 0])
 
+  /* Reduced motion: static visible hero, no scroll-linked animation */
+  if (reducedMotion) {
+    return (
+      <section id="hero" aria-label="Inicio" className="relative min-h-screen flex items-end pb-[80px]">
+        <div
+          ref={containerRef}
+          className="pl-[200px] pr-[var(--sp-6)] max-lg:pl-[120px] max-md:pl-[var(--sp-6)] w-full"
+        >
+          <h1 className="type-display text-shadow-smooth text-fg">
+            <span ref={lineRef}>{LINE}</span>
+          </h1>
+          <p className="max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] mt-[80px] max-md:max-w-none max-md:text-left max-md:ml-0 max-md:pr-0">
+            Planillas, carga manual, WhatsApp.
+            <br />
+            Lo reemplazamos con software a medida.
+          </p>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section ref={sectionRef} id="hero" aria-label="Inicio" className="relative h-[150vh]">

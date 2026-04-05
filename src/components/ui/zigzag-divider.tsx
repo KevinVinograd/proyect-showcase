@@ -1,6 +1,7 @@
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 export function ZigzagDivider() {
+  const reducedMotion = useReducedMotion()
   // Hand-drawn zigzag — irregular peaks for a natural, sketched feel
   const d =
     "M0 22 C4 22, 8 18, 14 4 C18 -4, 22 -2, 28 16 C32 28, 38 30, 44 6 " +
@@ -25,17 +26,27 @@ export function ZigzagDivider() {
         viewBox="0 0 600 32"
         fill="none"
       >
-        <motion.path
-          d={d}
-          stroke="rgba(255,255,255,0.5)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          initial={false}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 1.8, ease: "easeInOut" }}
-        />
+        {reducedMotion ? (
+          <path
+            d={d}
+            stroke="rgba(255,255,255,0.5)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        ) : (
+          <motion.path
+            d={d}
+            stroke="rgba(255,255,255,0.5)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={false}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.8, ease: "easeInOut" }}
+          />
+        )}
       </svg>
     </div>
   )

@@ -1,5 +1,5 @@
 import { useRef, useState, useLayoutEffect } from "react"
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion"
+import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion"
 
 const steps = [
   {
@@ -25,6 +25,7 @@ const steps = [
 ]
 
 export function Process() {
+  const reducedMotion = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const [travel, setTravel] = useState(0)
@@ -58,6 +59,46 @@ export function Process() {
     }
     setVisibleCount(count)
   })
+
+  /* Reduced motion: static grid, all cards visible, no horizontal scroll */
+  if (reducedMotion) {
+    return (
+      <section id="proceso" className="relative py-[var(--sp-30)] max-md:py-[var(--sp-20)]">
+        <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
+          <div className="mb-[40px]">
+            <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
+            <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
+              De problema a sistema en cuatro pasos
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 gap-[24px] max-md:grid-cols-1">
+            {steps.map((step) => (
+              <div key={step.number} className="relative">
+                <div
+                  className="rounded-sm p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)] h-full"
+                  style={{
+                    maskImage: "radial-gradient(circle 22px at 46px 46px, transparent 100%, black 100%)",
+                    WebkitMaskImage: "radial-gradient(circle 22px at 46px 46px, transparent 100%, black 100%)",
+                  }}
+                >
+                  <div className="h-[var(--step-number-size)] mb-[var(--sp-5)]" />
+                  <p className="type-h5 text-left text-[var(--color-fg-reverse)] mb-[var(--sp-2)]">
+                    {step.title}
+                  </p>
+                  <p className="text-[length:var(--text-body-lg)] text-left text-[var(--color-fg-reverse)] opacity-60 leading-[1.5] tracking-[0]">
+                    {step.body}
+                  </p>
+                </div>
+                <div className="absolute top-[var(--sp-6)] left-[var(--sp-6)] w-[var(--step-number-size)] h-[var(--step-number-size)] flex items-center justify-center font-[var(--font-heading)] text-[length:var(--text-body-md)] font-[800] text-[var(--color-fg)] border border-white/25 rounded-full">
+                  {step.number}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section ref={sectionRef} id="proceso" className="h-[300vh] relative">

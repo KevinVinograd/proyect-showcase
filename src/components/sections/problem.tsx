@@ -165,7 +165,7 @@ export function Problem() {
                   key={i}
                   initial={false}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ margin: "-50px" }}
+                  viewport={{ margin: "-60px" }}
                   transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.08 }}
                   style={{ rotate: ROTATIONS[i] }}
                 >
