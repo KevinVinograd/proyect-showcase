@@ -1,5 +1,9 @@
 import { motion } from "framer-motion"
-import type { ReactNode } from "react"
+import { useEffect, type ReactNode } from "react"
+import Lenis from "lenis"
+import { setLenis } from "@/lib/lenis"
+import { ShaderBackground } from "@/components/shell/shader-background"
+import { Navbar } from "@/components/shell/navbar"
 import { Hero } from "@/components/sections/hero"
 import { Problem } from "@/components/sections/problem"
 import { WhatWeBuild } from "@/components/sections/what-we-build"
@@ -8,14 +12,15 @@ import { Portfolio } from "@/components/sections/portfolio"
 import { Technologies } from "@/components/sections/technologies"
 import { Team } from "@/components/sections/team"
 import { Contact } from "@/components/sections/contact"
-import { Footer } from "@/components/sections/footer"
+import { ZigzagDivider } from "@/components/ui/zigzag-divider"
+import { HandwrittenArrow } from "@/components/ui/handwritten-arrow"
 
 function Reveal({ children }: { children: ReactNode }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "var(--reveal-margin)" }}
+      viewport={{ margin: "-100px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       {children}
@@ -24,19 +29,38 @@ function Reveal({ children }: { children: ReactNode }) {
 }
 
 export default function App() {
+  useEffect(() => {
+    const lenis = new Lenis()
+    setLenis(lenis)
+    function raf(time: number) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+    requestAnimationFrame(raf)
+    return () => {
+      lenis.destroy()
+      setLenis(null)
+    }
+  }, [])
+
   return (
     <>
+      <ShaderBackground />
+      <Navbar />
       <Hero />
-      <div className="max-w-[var(--container-content)] mx-auto px-[var(--sp-6)]">
-        <Reveal><Problem /></Reveal>
+      <Problem />
+      <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
         <Reveal><WhatWeBuild /></Reveal>
-        <Reveal><Process /></Reveal>
-        <Reveal><Portfolio /></Reveal>
-        <Reveal><Technologies /></Reveal>
-        <Reveal><Team /></Reveal>
-        <Reveal><Contact /></Reveal>
-        <Footer />
       </div>
+      <ZigzagDivider />
+      <Process />
+      <HandwrittenArrow />
+      <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
+        <Reveal><Portfolio /></Reveal>
+      </div>
+      <Technologies />
+      <Team />
+      <Contact />
     </>
   )
 }

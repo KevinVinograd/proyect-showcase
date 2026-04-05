@@ -1,42 +1,107 @@
-import { Badge } from "@/components/ui/badge"
-
-const categories = [
-  { label: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS"] },
-  { label: "Backend", items: ["Node.js", "Python", "PostgreSQL", "Redis"] },
-  { label: "Infraestructura", items: ["AWS", "Docker", "CI/CD"] },
+const logos: { name: string; svg: JSX.Element }[] = [
+  {
+    name: "React",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <circle cx="16" cy="16" r="2.8" />
+        <g fill="none" stroke="currentColor" strokeWidth="1.4">
+          <ellipse cx="16" cy="16" rx="14" ry="5.5" />
+          <ellipse cx="16" cy="16" rx="14" ry="5.5" transform="rotate(60 16 16)" />
+          <ellipse cx="16" cy="16" rx="14" ry="5.5" transform="rotate(120 16 16)" />
+        </g>
+      </svg>
+    ),
+  },
+  {
+    name: "Next.js",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <path d="M16 2a14 14 0 1 0 0 28 14 14 0 0 0 0-28Zm5.9 21.1L12.4 10.6v10.8h1.5V14l8.2 10.6a14 14 0 0 1-5.1 1.4V14.5h1.5v8.6h-.6Z" />
+      </svg>
+    ),
+  },
+  {
+    name: "TypeScript",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <path d="M2 2h28v28H2V2Zm15.5 13.3v2h-3.8v10.2h-2.4V17.3H7.5v-2h10Zm1.3 4.2c0-2.5 2-3.6 4.2-3.6 1.8 0 3.6.7 3.6 2.8v5.8c0 .5.2.8.7.8.2 0 .3 0 .5-.1v1.6c-.4.2-.8.2-1.3.2-1.2 0-1.6-.7-1.7-1.5-1 1-2.2 1.5-3.5 1.5-1.9 0-3.2-1-3.2-3 0-2.2 1.6-2.8 3.3-3.2l3.3-.8v-.4c0-1.3-.8-1.8-2-1.8-1.3 0-2.1.7-2.2 2h-1.7Zm6.1 2.1-2.7.7c-1 .3-1.8.6-1.8 1.7 0 1 .8 1.5 1.8 1.5 1.5 0 2.7-1 2.7-2.5v-1.4Z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Tailwind",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <path d="M16 6.4c-4.3 0-7 2.1-8 6.4 1.6-2.1 3.5-2.9 5.6-2.4 1.2.3 2 1.1 3 2.1 1.5 1.6 3.3 3.5 7.1 3.5 4.3 0 7-2.1 8-6.4-1.6 2.1-3.5 2.9-5.6 2.4-1.2-.3-2-1.1-3-2.1C21.6 8.3 19.8 6.4 16 6.4ZM8 16c-4.3 0-7 2.1-8 6.4 1.6-2.1 3.5-2.9 5.6-2.4 1.2.3 2 1.1 3 2.1 1.5 1.6 3.3 3.5 7.1 3.5 4.3 0 7-2.1 8-6.4-1.6 2.1-3.5 2.9-5.6 2.4-1.2-.3-2-1.1-3-2.1C13.6 17.9 11.8 16 8 16Z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Node.js",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <path d="M16 2.2a1.6 1.6 0 0 0-.8.2L4 8.6a1.6 1.6 0 0 0-.8 1.4v12a1.6 1.6 0 0 0 .8 1.4l11.2 6.4a1.6 1.6 0 0 0 1.6 0l11.2-6.4a1.6 1.6 0 0 0 .8-1.4V10a1.6 1.6 0 0 0-.8-1.4L16.8 2.4a1.6 1.6 0 0 0-.8-.2Zm-1.3 9.3c3.2 0 5 1.5 5 4.2 0 2.8-1.8 4.3-5 4.3h-2.2v-8.5h2.2Zm-1 1.5v5.5h1c2 0 3.3-.8 3.3-2.8 0-1.9-1.2-2.7-3.3-2.7h-1Z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Python",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <path d="M15.9 2c-1.8 0-3.4.2-4.7.5C8.3 3.2 7.5 4.5 7.5 6.4v2.8h8.5v1H6.2c-2.5 0-4.6 1.5-5.3 4.3-.8 3.2-.8 5.2 0 8.6.6 2.5 2 4.3 4.5 4.3h2.9v-3.8c0-2.8 2.4-5.3 5.3-5.3h8.4c2.4 0 4.2-2 4.2-4.3V6.4c0-2.3-2-4-4.2-4.4-1.4-.3-3-.4-4.7-.4h-1.4Zm-4.6 2.6a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2Z" />
+        <path d="M25.2 10.2v3.7c0 3-2.5 5.4-5.3 5.4h-8.4c-2.3 0-4.2 2-4.2 4.3v8c0 2.3 2 3.6 4.2 4.2 2.7.7 5.2.8 8.4 0 2.1-.6 4.2-1.7 4.2-4.2v-3.2h-8.4v-1h12.7c2.4 0 3.4-1.7 4.2-4.3.8-2.7.8-5.3 0-8.6-.6-2.4-1.7-4.3-4.2-4.3h-3.2Zm-4.7 17.2a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2Z" />
+      </svg>
+    ),
+  },
+  {
+    name: "PostgreSQL",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <path d="M22.8 2.2c-2-.1-3.8.4-5.2 1.2-.8-.2-1.7-.4-2.8-.4-1.8 0-3.5.5-4.7 1.3-.8-.3-2.3-.8-4-.8C3.5 3.5 1.2 5.4 1 8.3c-.1 1.7.3 3.8 1.2 6.4 1.3 3.7 3 6.3 5 7.8.9.7 2.1 1 3.2.7.6-.2 1.2-.5 1.6-.9.6.3 1.3.5 2 .5h.2c.8.8 2 1.3 3.5 1.2 1.5-.1 2.4-.6 3.1-1.4l.3-.4c1 .2 1.9.1 2.7-.1 1.3-.5 2.1-1.5 2.6-3 .3-.7.3-2 .4-3.6l.1-.7c.6-.7 1-1.5 1.3-2.4.5-1.6.7-3.1.6-4.5 0-1.8-.5-3.2-1.5-4.2-1-.9-2.5-1.4-4.2-1.5h-.2Zm.1 1.5c1.4.1 2.5.5 3.2 1.2.7.7 1.1 1.8 1.2 3.3 0 1.2-.1 2.6-.6 4-.2.7-.5 1.3-1 1.8l-.2.2c0-1 0-2-.2-2.7-.2-1.3-.6-2.2-1.6-3-1-.8-2-1-3.2-1.2-.5-.1-.9-.1-1.3 0 .9-.8 2-1.4 3.3-1.6h.4Zm-8.1.7c1.3 0 2.2.3 2.6.4l.2.1c-.4.2-.8.5-1.1.8-.7.1-1.3.3-2 .5l-1.5.7c-.3.1-.6 0-.8-.2-.5-.6-.6-1-.5-1.3.1-.3.5-.6 1.2-.8.6-.2 1.3-.2 1.9-.2Zm-8.5 1c1.3 0 2.5.4 3.2.6-.2.4-.3.9-.2 1.4.1.6.5 1.2 1 1.7.3.3.7.5 1.1.4l1.7-.8c.5-.3 1.1-.5 1.6-.6-.3.4-.5.8-.6 1.3-.5 1.4-.2 2.8.4 4.4l.1.3c-.8 1-1.4 2.3-1.4 4.3 0 .5 0 .9.1 1.3-.4.2-.8.3-1.3.3-.7 0-1.4-.3-2-.8-1.7-1.3-3.2-3.6-4.4-7-.8-2.4-1.2-4.3-1.1-5.7.2-2.3 1.8-3.7 3.8-3.8h.5Z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Redis",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <path d="M31.3 18.7c-1.4.7-8.6 3.7-10.1 4.5-1.5.8-2.4.8-3.6.2-1.2-.6-8.9-3.7-10.3-4.3-.7-.3-1.1-.6-1.1-.9v-2.8s10-2.3 11.6-2.9c1.6-.6 2.2-.6 3.5-.1 1.3.5 9.4 1.9 10.8 2.5v2.8c0 .3-.2.6-1 1Zm0-4.3c-1.4.7-8.6 3.7-10.1 4.5-1.5.8-2.4.8-3.6.2-1.2-.6-8.9-3.7-10.3-4.3-1.4-.6-1.4-1 0-1.6 1.4-.6 8.8-3.5 10.4-4.1 1.6-.6 2.2-.6 3.5-.1 1.3.5 8.1 3.2 9.5 3.8 1.4.6 1.4 1 .5 1.5Zm-14-6.2L14 7l4-1.2-4-1.2-3.3 1.2 4 1.2Zm6.1 1.6-2.2-.8-4.8 1.8 2.2.8 4.8-1.8Zm-6.3-.5 1.7-.6-1.7-.7-1.7.7 1.7.6Z" />
+      </svg>
+    ),
+  },
+  {
+    name: "AWS",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <path d="M9.2 13.4l-1.5 5h3l-1.5-5Zm-3 8.3L9.8 12h1.4l3.6 9.7h-1.7l-.8-2.3h-4l-.8 2.3H5.8l.4-1Zm9.1 0-2.7-9.7h1.7l1.5 6 1.7-6h1.5l1.7 6 1.5-6h1.7l-2.7 9.7h-1.5l-1.7-6-1.7 6h-1Zm9.5-2c.2.8 1 1.5 2.4 1.5 1.1 0 1.8-.5 1.8-1.2 0-.6-.4-1-1.5-1.3l-1.3-.3c-1.6-.4-2.4-1.2-2.4-2.5 0-1.6 1.4-2.7 3.3-2.7 2 0 3.2 1.1 3.3 2.6h-1.6c-.2-.8-.8-1.2-1.8-1.2-1 0-1.6.5-1.6 1.2 0 .5.4.9 1.4 1.1l1.2.3c1.8.4 2.6 1.2 2.6 2.5 0 1.7-1.4 2.8-3.5 2.8-2 0-3.4-1-3.5-2.7h1.6Z" />
+        <path d="M27 24.5c-3.3 2-8 3-12.1 3-5.7 0-10.9-2.1-14.8-5.7-.3-.3 0-.6.3-.4 4.2 2.5 9.4 4 14.8 4 3.6 0 7.6-.8 11.3-2.3.5-.3 1 .3.5.7v-.3Z" />
+        <path d="M28.4 23c-.4-.5-2.7-.3-3.8-.1-.3 0-.3-.2-.1-.5 1.8-1.3 4.8-.9 5.2-.5.3.4-.1 3.3-1.8 4.7-.3.2-.5.1-.4-.2.4-1 1.3-3.1.9-3.5v.1Z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Docker",
+    svg: (
+      <svg viewBox="0 0 32 32" fill="currentColor" className="h-[100px] w-[100px]">
+        <path d="M18.2 13.2h3v2.5h1.5c.7 0 1.4-.1 2-.4.3-.1.6-.3.9-.6-.4-.5-.6-1.2-.6-1.9 0-1.3.7-2.2 1.3-2.7l.5-.4-.4-.5c-1-1.2-2.5-1.8-4-1.8-.7 0-1.5.1-2.2.4v-1h-3v2.5h-3v-2.5h-3v2.5h-3v-2.5H5v2.5H2v3c0 4 2.8 7.6 7.2 8.7 1 .3 2 .4 3.2.4 3.7 0 7-1.7 9.2-5 1.9.1 3.7-.6 4.6-2.2l.4-.7H24c-1.3 0-2.5-.2-3.3-.5-1.4-.5-2.4-1.4-2.5-2.5v-.3ZM7.6 15.7H5.2v-2.5h2.4v2.5Zm3 0h-2.4v-2.5h2.4v2.5Zm3 0h-2.4v-2.5h2.4v2.5Zm0-3h-2.4v-2.5h2.4v2.5Zm3 3h-2.4v-2.5h2.4v2.5Zm0-3h-2.4v-2.5h2.4v2.5Zm3 3h-2.4v-2.5h2.4v2.5Z" />
+      </svg>
+    ),
+  },
 ]
 
 export function Technologies() {
   return (
-    <section className="py-[var(--sp-20)] border-b border-[var(--color-border-subtle)]">
-      <h2 className="font-[var(--font-heading)] text-[length:var(--text-portfolio-title)] font-[700] text-[var(--color-foreground-strong)] tracking-[0] mb-[var(--sp-3)] leading-[1.2]">
-        Stack técnico
-      </h2>
-      <p className="font-[var(--font-body)] text-[length:var(--text-secondary)] text-[var(--color-foreground-dim)] mb-[var(--sp-8)] leading-[1.7]">
-        La tecnología es una herramienta, no un argumento de venta. Elegimos la
-        que resuelve el problema, no la que está de moda.
-      </p>
-      {categories.map((cat, i) => (
-        <div
-          key={cat.label}
-          className={i < categories.length - 1 ? "mb-[var(--sp-5)]" : ""}
-        >
-          <div className="font-[var(--font-body)] text-[length:var(--text-label)] font-[700] uppercase tracking-[0.1em] text-[var(--color-foreground-dim)] mb-[var(--sp-3)]">
-            {cat.label}
+    <section className="py-[var(--sp-20)] max-md:py-[var(--sp-12)] overflow-hidden">
+      <div className="flex animate-marquee" style={{ width: "max-content" }}>
+        {[...logos, ...logos].map((logo, i) => (
+          <div
+            key={`${logo.name}-${i}`}
+            className="flex items-center justify-center mx-10 text-white opacity-30 shrink-0"
+          >
+            <div className="h-[100px] w-[100px]">{logo.svg}</div>
           </div>
-          <div className="flex flex-wrap gap-[var(--sp-2)]">
-            {cat.items.map((item) => (
-              <Badge
-                key={item}
-                variant="outline"
-                className="font-[var(--font-body)] text-[length:var(--text-badge)] font-[500] px-[var(--badge-px)] py-[var(--badge-py)] bg-[var(--color-surface-1)] border-[var(--color-border)] text-[var(--color-foreground-dim)] rounded-[var(--radius-sm)] shadow-none transition-[border-color] duration-150 hover:border-[var(--color-border-hover)]"
-              >
-                {item}
-              </Badge>
-            ))}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </section>
   )
 }

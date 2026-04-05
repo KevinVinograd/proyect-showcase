@@ -2,36 +2,45 @@
 
 @theme {
   /* — FONTS — */
-  --font-heading: "Futura Now Text", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "RM Neue", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
 
   /* — TYPE SCALE — */
-  --text-hero: 52px;
-  --text-section: 30px;
-  --text-contact: 34px;
-  --text-portfolio-title: 22px;
-  --text-subheadline: 19px;
-  --text-step-title: 18px;
-  --text-card-title: 17px;
-  --text-body: 15px;
-  --text-secondary: 14px;
-  --text-badge: 13px;
-  --text-caption: 12px;
+  --text-display: 200px;
+  --text-h1: 64px;
+  --text-h2: 52px;
+  --text-h3: 44px;
+  --text-h4: 32px;
+  --text-h5: 24px;
+  --text-body-lg: 20px;
+  --text-body-md: 16px;
+  --text-body-sm: 14px;
+  --text-button-lg: 20px;
+  --text-caption: 16px;
   --text-label: 10px;
 
   /* — COLORS — */
   --color-background: #080c16;
   --color-surface-1: rgba(255, 255, 255, 0.015);
   --color-surface-2: rgba(255, 255, 255, 0.035);
-  --color-foreground-primary: #ffffff;
-  --color-foreground-strong: #f1f5f9;
-  --color-foreground-body: #8893a8;
-  --color-foreground-dim: #475569;
+  --color-fg: #ffffff;
+  --color-fg-subtle: rgba(255, 255, 255, 0.7);
+  --color-fg-disabled: rgba(255, 255, 255, 0.5);
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-hover: rgba(255, 255, 255, 0.12);
-  --color-border-subtle: rgba(255, 255, 255, 0.04);
+  --color-border-subtle: rgba(255, 255, 255, 0.4);
+  --color-border-strong: rgba(255, 255, 255, 0.7);
+  --color-border-disabled: rgba(255, 255, 255, 0.08);
   --color-accent: #ffffff;
   --color-accent-foreground: #080c16;
+
+  /* — SURFACE FLAT (opaque, for overlapping cards / post-its) — */
+  --color-surface-flat: #ffffff;
+
+  /* — REVERSE FOREGROUND (dark text on light surfaces) — */
+  --color-fg-reverse: #080c16;
+  --color-fg-reverse-subtle: rgba(8, 12, 22, 0.65);
+  --color-fg-reverse-disabled: rgba(8, 12, 22, 0.4);
 
   /* — SPACING — */
   --sp-1: 4px;
@@ -51,6 +60,9 @@
   --sp-35: 140px;
   --sp-45: 180px;
 
+  /* — SHADOWS — */
+  --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.25);
+
   /* — RADIUS — */
   --radius-sm: 4px;
   --radius-md: 6px;
@@ -62,7 +74,7 @@
   --container-hero: 940px;
   --container-subheadline: 560px;
   --container-contact-title: 620px;
-  --container-contact-sub: 480px;
+  --container-contact-sub: 560px;
   --grid-step: 56px;
   --badge-px: 14px;
   --badge-py: 5px;
@@ -71,22 +83,114 @@
   --grid-portfolio: 1fr 1fr 1.3fr;
 }
 
-/* — UTILITY CLASSES (token-driven) — */
+/* — TEXT SHADOW (Smooth Shadow – multi-layer) — */
+
+.text-shadow-smooth {
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.30),
+    0 2px 4px rgba(0, 0, 0, 0.24),
+    0 4px 8px rgba(0, 0, 0, 0.18),
+    0 8px 16px rgba(0, 0, 0, 0.12),
+    0 16px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* — TYPE UTILITIES (token-driven) — */
+
+.type-display {
+  font-family: var(--font-heading);
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.type-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--text-h1);
+  font-weight: 800;
+  line-height: 72px;
+  letter-spacing: -0.03em;
+}
+
+.type-h2 {
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: 800;
+  line-height: 60px;
+  letter-spacing: -0.02em;
+}
+
+.type-h3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: 800;
+  line-height: 52px;
+  letter-spacing: -0.02em;
+}
+
+.type-h4 {
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  font-weight: 800;
+  line-height: 40px;
+  letter-spacing: -0.005em;
+}
+
+.type-h5 {
+  font-family: var(--font-heading);
+  font-size: var(--text-h5);
+  font-weight: 800;
+  line-height: 32px;
+  letter-spacing: -0.005em;
+}
+
+.type-subheadline {
+  font-family: var(--font-body);
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: -0.01em;
+}
+
+.type-overline {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-fg-subtle);
+}
+
+@media (max-width: 767px) {
+  .type-display {
+    font-size: var(--text-h1);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  .type-h1 {
+    font-size: var(--text-h2);
+    line-height: 60px;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* — LAYOUT UTILITIES (token-driven) — */
 .grid-portfolio {
   grid-template-columns: var(--grid-portfolio);
 }
 
 html {
-  scroll-behavior: smooth;
   color-scheme: dark;
 }
 
 body {
   margin: 0;
   background: var(--color-background);
-  color: var(--color-foreground-body);
+  color: var(--color-fg-subtle);
   font-family: var(--font-body);
-  font-size: var(--text-body);
+  font-weight: 600;
+  font-size: var(--text-body-md);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -95,4 +199,53 @@ body {
 ::selection {
   background: #3b82f6;
   color: white;
+}
+
+/* — MARQUEE TICKER — */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 60s linear infinite;
+}
+
+/* — BLACK HOLE — */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes spin-slow-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 30s linear infinite;
+}
+.animate-spin-slow-reverse {
+  animation: spin-slow-reverse 20s linear infinite;
+}
+
+/* — GRADIENT BORDER (contact section) — */
+.border-gradient-night::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
