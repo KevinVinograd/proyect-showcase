@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useSpring, useReducedMotion, type MotionValue } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
-import { VIEWPORT_MARGIN, SCROLL_SPRING, useScrollFadeIn } from "@/lib/motion"
+import { VIEWPORT_MARGIN, SCROLL_SPRING, DRAW_EASE, useScrollFadeIn } from "@/lib/motion"
 
 const bullets = [
   {
@@ -85,6 +85,9 @@ function ClosingText() {
     offset: ["start end", "start start"],
   })
   const { opacity: closingO, y: closingY } = useScrollFadeIn(closingProgress, [0.3, 0.6])
+  // Circle draws after text is visible — scroll-driven, not whileInView,
+  // because the parent starts at opacity 0 and whileInView would fire too early.
+  const circleDraw = useSpring(useTransform(closingProgress, [0.55, 0.85], [0, 1]), SCROLL_SPRING)
 
   return (
     <motion.div
@@ -119,12 +122,7 @@ function ClosingText() {
               stroke="rgba(255,255,255,0.5)"
               strokeWidth="2"
               strokeLinecap="round"
-              pathLength={1}
-              strokeDasharray="1"
-              initial={false}
-              whileInView={{ strokeDashoffset: 0 }}
-              viewport={{ once: true, margin: VIEWPORT_MARGIN.decorative }}
-              transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
+              style={{ pathLength: circleDraw }}
             />
           )}
         </svg>

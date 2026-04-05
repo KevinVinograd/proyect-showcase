@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion"
-import { VIEWPORT_MARGIN } from "@/lib/motion"
+import { VIEWPORT_MARGIN, DRAW_EASE } from "@/lib/motion"
 
 export function ZigzagDivider() {
   const reducedMotion = useReducedMotion()
@@ -31,7 +31,7 @@ export function ZigzagDivider() {
           <path
             d={d}
             stroke="rgba(255,255,255,0.5)"
-            strokeWidth="1.5"
+            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -39,13 +39,13 @@ export function ZigzagDivider() {
           <motion.path
             d={d}
             stroke="rgba(255,255,255,0.5)"
-            strokeWidth="1.5"
+            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            initial={false}
+            initial={{ pathLength: 0 }}
             whileInView={{ pathLength: 1 }}
             viewport={{ once: true, margin: VIEWPORT_MARGIN.decorative }}
-            transition={{ duration: 1.8, ease: "easeInOut" }}
+            transition={{ duration: 1.8, ease: DRAW_EASE }}
           />
         )}
       </svg>

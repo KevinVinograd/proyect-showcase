@@ -235,6 +235,16 @@ function sectionProgress(el: HTMLElement): number {
 export function ShaderBackground() {
   const [glSupported] = useState(canWebGL)
   const [blended, setBlended] = useState<ShaderProps>(RESOLVED[0])
+  const [reducedMotion, setReducedMotion] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  )
+
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const onChange = () => setReducedMotion(mql.matches)
+    mql.addEventListener("change", onChange)
+    return () => mql.removeEventListener("change", onChange)
+  }, [])
 
   const smoothPos = useRef(0)
   const targetPos = useRef(0)
@@ -342,7 +352,7 @@ export function ShaderBackground() {
           pixelDensity={1}
           pointerEvents="none"
         >
-          <ShaderGradient {...blended as any} />
+          <ShaderGradient {...blended as any} {...(reducedMotion && { uSpeed: 0 })} />
         </ShaderGradientCanvas>
       </div>
     </WebGLBoundary>
