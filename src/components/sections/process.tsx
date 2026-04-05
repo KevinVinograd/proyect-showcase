@@ -59,7 +59,7 @@ export function Process() {
   // Track which cards are visible based on scroll
   const [visibleCount, setVisibleCount] = useState(0)
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const thresholds = [0.05, 0.22, 0.32, 0.42]
+    const thresholds = [0.10, 0.35, 0.55, 0.75]
     let count = 0
     for (const t of thresholds) {
       if (v >= t) count++
@@ -108,7 +108,7 @@ export function Process() {
   }
 
   return (
-    <section ref={sectionRef} id="proceso" className="h-[300vh] relative">
+    <section ref={sectionRef} id="proceso" className="h-[220vh] relative">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         <motion.div
           className="max-w-[var(--container-hero)] mx-auto w-full px-[var(--sp-6)] mb-[var(--sp-10)]"

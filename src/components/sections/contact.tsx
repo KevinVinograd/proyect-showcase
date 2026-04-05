@@ -55,12 +55,12 @@ export function Contact() {
     offset: ["start 0.7", "end end"],
   })
 
-  // 1. Letter fill reveal
-  const letterProgress = useTransform(scrollYProgress, [0, 0.4], [0, 1])
+  // 1. Letter fill reveal — spread across first 55% for the compressed section
+  const letterProgress = useTransform(scrollYProgress, [0, 0.55], [0, 1])
 
   // 2. Body + CTA after letters
-  const bodyOpacity = useTransform(scrollYProgress, [0.4, 0.5], [0, 1])
-  const bodyY = useTransform(scrollYProgress, [0.4, 0.5], [20, 0])
+  const bodyOpacity = useTransform(scrollYProgress, [0.55, 0.70], [0, 1])
+  const bodyY = useTransform(scrollYProgress, [0.55, 0.70], [20, 0])
 
   /* Reduced motion: static layout, letters pre-filled, body visible */
   if (reducedMotion) {
@@ -96,7 +96,7 @@ export function Contact() {
   }
 
   return (
-    <section ref={sectionRef} id="contacto" className="relative z-30 h-[250vh]">
+    <section ref={sectionRef} id="contacto" className="relative z-30 h-[150vh]">
       <div className="sticky top-0 h-screen flex items-center">
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] w-full">
           <h2 className="sr-only">Contacto — Hablemos sobre tu operación</h2>

@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useSpring, useReducedMotion, type MotionValue } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
-import { VIEWPORT_MARGIN, SCROLL_SPRING, DRAW_EASE, useScrollFadeIn } from "@/lib/motion"
+import { SCROLL_SPRING, useScrollFadeIn } from "@/lib/motion"
 
 const bullets = [
   {
@@ -38,11 +38,11 @@ function PostIt({
   index: number
   scrollYProgress: MotionValue<number>
 }) {
-  // Cards start well after the sticky pins — buffer for heading reading
-  const FIRST_CARD = 0.32
-  const perCard = (0.90 - FIRST_CARD) / CARD_COUNT
+  // Cards begin shortly after the section pins — minimal heading-only wait
+  const FIRST_CARD = 0.12
+  const perCard = (0.82 - FIRST_CARD) / CARD_COUNT
   const segStart = FIRST_CARD + index * perCard
-  const segEnd = segStart + perCard * 0.3
+  const segEnd = segStart + perCard * 0.5
 
   const STEP = 70
   const finalY = index * STEP
@@ -221,7 +221,7 @@ export function Problem() {
   /* ─── Desktop: post-it stack with scroll-driven reveal ─── */
   return (
     <>
-      <section ref={sectionRef} id="problems" className="h-[350vh]">
+      <section ref={sectionRef} id="problems" className="h-[220vh]">
         <div className="sticky top-0 h-screen flex flex-col items-center justify-center">
           <motion.div
             className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] w-full text-center mb-[var(--sp-20)]"

@@ -99,18 +99,18 @@ export function Hero() {
     offset: ["start start", "end start"],
   })
 
-  // — Line: horizontal scroll + letter reveal [0, 30%], fade [52%, 55%] —
+  // — Line: horizontal scroll + letter reveal [0, 30%], fade [55%, 65%] —
   const x = useTransform(scrollYProgress, [0, 0.30], [0, reducedMotion ? 0 : -travel])
   const lineProgress = useTransform(scrollYProgress, [0, 0.30], [0, 1])
-  const lineOpacity = useTransform(scrollYProgress, [0.52, 0.55], [1, reducedMotion ? 1 : 0.4])
+  const lineOpacity = useTransform(scrollYProgress, [0.55, 0.65], [1, reducedMotion ? 1 : 0.4])
 
-  // — Content holds, then fades out right after line finishes —
+  // — Content holds, then fades out progressively [30%, 65%] —
   const contentY = useTransform(
     scrollYProgress,
-    [0, 0.30, 0.42],
+    [0, 0.30, 0.65],
     [0, 0, reducedMotion ? 0 : -60],
   )
-  const contentOpacity = useTransform(scrollYProgress, [0.30, 0.42], [1, reducedMotion ? 1 : 0])
+  const contentOpacity = useTransform(scrollYProgress, [0.30, 0.65], [1, reducedMotion ? 1 : 0])
 
   const { opacity: subtitleO, y: subtitleY } = useScrollFadeIn(scrollYProgress, [0.10, 0.20])
 

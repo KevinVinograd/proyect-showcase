@@ -40,12 +40,15 @@ export function Team() {
 
   const { opacity: titleO, y: titleY } = useScrollFadeIn(approachProgress, [0.4, 0.7])
 
-  const c0O = useSpring(useTransform(scrollYProgress, [0.31, 0.35], [0, 1]), SCROLL_SPRING)
-  const c0Y = useSpring(useTransform(scrollYProgress, [0.31, 0.35], [40, 0]), SCROLL_SPRING)
-  const c1O = useSpring(useTransform(scrollYProgress, [0.35, 0.39], [0, 1]), SCROLL_SPRING)
-  const c1Y = useSpring(useTransform(scrollYProgress, [0.35, 0.39], [40, 0]), SCROLL_SPRING)
-  const c2O = useSpring(useTransform(scrollYProgress, [0.39, 0.43], [0, 1]), SCROLL_SPRING)
-  const c2Y = useSpring(useTransform(scrollYProgress, [0.39, 0.43], [40, 0]), SCROLL_SPRING)
+  const c0O = useSpring(useTransform(scrollYProgress, [0.15, 0.30], [0, 1]), SCROLL_SPRING)
+  const c0Y = useSpring(useTransform(scrollYProgress, [0.15, 0.30], [40, 0]), SCROLL_SPRING)
+  const c1O = useSpring(useTransform(scrollYProgress, [0.30, 0.45], [0, 1]), SCROLL_SPRING)
+  const c1Y = useSpring(useTransform(scrollYProgress, [0.30, 0.45], [40, 0]), SCROLL_SPRING)
+  const c2O = useSpring(useTransform(scrollYProgress, [0.45, 0.60], [0, 1]), SCROLL_SPRING)
+  const c2Y = useSpring(useTransform(scrollYProgress, [0.45, 0.60], [40, 0]), SCROLL_SPRING)
+
+  // Gentle collective settle after all cards are in — keeps scroll rewarding until unpin
+  const settleY = useSpring(useTransform(scrollYProgress, [0.60, 0.90], [0, -20]), SCROLL_SPRING)
   const cardYs = [c0Y, c1Y, c2Y]
   const cardOs = [c0O, c1O, c2O]
 
@@ -102,7 +105,7 @@ export function Team() {
   }
 
   return (
-    <section ref={sectionRef} id="equipo" className="relative z-20 h-[350vh] max-md:h-[400vh]">
+    <section ref={sectionRef} id="equipo" className="relative z-20 h-[160vh] max-md:h-[200vh]">
       <div
         className="sticky top-0 h-screen flex flex-col justify-center max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]"
       >
@@ -113,7 +116,7 @@ export function Team() {
           </h2>
           <div className="mb-[var(--sp-12)]" />
         </motion.div>
-        <div className="grid grid-cols-3 gap-[var(--sp-10)] max-md:grid-cols-1 max-md:gap-[var(--sp-6)]">
+        <motion.div className="grid grid-cols-3 gap-[var(--sp-10)] max-md:grid-cols-1 max-md:gap-[var(--sp-6)]" style={{ y: settleY }}>
           {members.map((member, i) => {
             const offsets = ["mt-0", "mt-[var(--sp-12)]", "mt-[var(--sp-24)]"]
             return (
@@ -153,7 +156,7 @@ export function Team() {
               </motion.div>
             )
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
