@@ -40,12 +40,12 @@ export function Team() {
 
   const { opacity: titleO, y: titleY } = useScrollFadeIn(approachProgress, [0.4, 0.7])
 
-  const c0O = useSpring(useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [0, 1, 1, 0]), SCROLL_SPRING)
-  const c0Y = useSpring(useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [40, 0, 0, -40]), SCROLL_SPRING)
-  const c1O = useSpring(useTransform(scrollYProgress, [0.35, 0.39, 0.76, 0.80], [0, 1, 1, 0]), SCROLL_SPRING)
-  const c1Y = useSpring(useTransform(scrollYProgress, [0.35, 0.39, 0.76, 0.80], [40, 0, 0, -40]), SCROLL_SPRING)
-  const c2O = useSpring(useTransform(scrollYProgress, [0.39, 0.43, 0.79, 0.83], [0, 1, 1, 0]), SCROLL_SPRING)
-  const c2Y = useSpring(useTransform(scrollYProgress, [0.39, 0.43, 0.79, 0.83], [40, 0, 0, -40]), SCROLL_SPRING)
+  const c0O = useSpring(useTransform(scrollYProgress, [0.31, 0.35], [0, 1]), SCROLL_SPRING)
+  const c0Y = useSpring(useTransform(scrollYProgress, [0.31, 0.35], [40, 0]), SCROLL_SPRING)
+  const c1O = useSpring(useTransform(scrollYProgress, [0.35, 0.39], [0, 1]), SCROLL_SPRING)
+  const c1Y = useSpring(useTransform(scrollYProgress, [0.35, 0.39], [40, 0]), SCROLL_SPRING)
+  const c2O = useSpring(useTransform(scrollYProgress, [0.39, 0.43], [0, 1]), SCROLL_SPRING)
+  const c2Y = useSpring(useTransform(scrollYProgress, [0.39, 0.43], [40, 0]), SCROLL_SPRING)
   const cardYs = [c0Y, c1Y, c2Y]
   const cardOs = [c0O, c1O, c2O]
 

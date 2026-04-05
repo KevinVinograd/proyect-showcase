@@ -65,7 +65,7 @@ export function Contact() {
   /* Reduced motion: static layout, letters pre-filled, body visible */
   if (reducedMotion) {
     return (
-      <section id="contacto" className="relative z-30 py-[var(--sp-30)] max-md:py-[var(--sp-20)]">
+      <section id="contacto" className="relative z-30 pt-[var(--sp-30)] pb-[var(--sp-10)] max-md:pt-[var(--sp-20)] max-md:pb-[var(--sp-10)]">
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] w-full">
           <h2 className="sr-only">Contacto — Hablemos sobre tu operación</h2>
           <p className="type-display-2 text-[var(--color-fg)]">
@@ -87,7 +87,7 @@ export function Contact() {
             </div>
           </div>
 
-          <p className="mt-[var(--sp-20)] pt-[var(--sp-20)] pb-[var(--sp-20)] text-[length:var(--text-caption)] text-[var(--color-fg-disabled)]">
+          <p className="mt-[var(--sp-20)] pt-[var(--sp-20)] pb-0 text-[length:var(--text-caption)] text-[var(--color-fg-disabled)]">
             &copy; {new Date().getFullYear()}
           </p>
         </div>
@@ -130,13 +130,13 @@ export function Contact() {
             </div>
           </motion.div>
 
-          <motion.p
-            className="mt-[var(--sp-20)] pt-[var(--sp-20)] pb-[var(--sp-20)] text-[length:var(--text-caption)] text-[var(--color-fg-disabled)]"
-            style={{ opacity: bodyOpacity }}
-          >
-            &copy; {new Date().getFullYear()}
-          </motion.p>
         </div>
+        <motion.p
+          className="absolute bottom-[var(--sp-20)] left-0 right-0 max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] text-left text-[length:var(--text-caption)] text-[var(--color-fg-disabled)]"
+          style={{ opacity: bodyOpacity }}
+        >
+          &copy; {new Date().getFullYear()}
+        </motion.p>
       </div>
     </section>
   )
