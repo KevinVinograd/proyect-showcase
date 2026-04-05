@@ -1,6 +1,6 @@
 import { useRef } from "react"
-import { motion, useScroll } from "framer-motion"
-import { useScrollFadeIn } from "@/lib/motion"
+import { motion, useScroll, useReducedMotion } from "framer-motion"
+import { useScrollFadeIn, VIEWPORT_MARGIN, CARD_TWEEN } from "@/lib/motion"
 
 /* ─── Starburst mask — punches a hole through the card so the shader BG shows ─── */
 const STARBURST_SVG = encodeURIComponent(
@@ -38,6 +38,7 @@ const blocks = [
 ]
 
 export function WhatWeBuild() {
+  const reducedMotion = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -57,11 +58,15 @@ export function WhatWeBuild() {
           </motion.div>
         </div>
         <div className="flex flex-col gap-[var(--sp-5)]">
-          {blocks.map((block) => (
-            <div
+          {blocks.map((block, i) => (
+            <motion.div
               key={block.title}
               className="rounded-sm p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)]"
               style={CARD_MASK}
+              initial={reducedMotion ? false : { opacity: 0, y: 40, rotate: 5 }}
+              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+              viewport={{ once: true, margin: VIEWPORT_MARGIN.content }}
+              transition={{ ...CARD_TWEEN, delay: i * 0.1 }}
             >
               {/* Spacer for the starburst hole */}
               <div className="h-10 mb-[var(--sp-4)]" />
@@ -71,7 +76,7 @@ export function WhatWeBuild() {
               <p className="text-[length:var(--text-body-lg)] text-left text-[var(--color-fg-reverse)] opacity-60 leading-[1.5] tracking-[0]">
                 {block.body}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

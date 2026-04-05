@@ -1,6 +1,6 @@
 import { useRef } from "react"
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion"
-import { useScrollFadeIn } from "@/lib/motion"
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion"
+import { useScrollFadeIn, SCROLL_SPRING } from "@/lib/motion"
 
 const members = [
   {
@@ -38,19 +38,14 @@ export function Team() {
     offset: ["start end", "start start"],
   })
 
-  // Heading: approach spring fade-in + cascade fade-out
-  const { opacity: approachO, y: approachY } = useScrollFadeIn(approachProgress, [0.4, 0.7])
-  const exitO = useTransform(scrollYProgress, [0.70, 0.74], [1, 0])
-  const exitY = useTransform(scrollYProgress, [0.70, 0.74], [0, -30])
-  const titleO = useTransform(() => approachO.get() * exitO.get())
-  const titleY = useTransform(() => approachY.get() + exitY.get())
+  const { opacity: titleO, y: titleY } = useScrollFadeIn(approachProgress, [0.4, 0.7])
 
-  const c0O = useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [0, 1, 1, 0])
-  const c0Y = useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [40, 0, 0, -40])
-  const c1O = useTransform(scrollYProgress, [0.35, 0.39, 0.76, 0.80], [0, 1, 1, 0])
-  const c1Y = useTransform(scrollYProgress, [0.35, 0.39, 0.76, 0.80], [40, 0, 0, -40])
-  const c2O = useTransform(scrollYProgress, [0.39, 0.43, 0.79, 0.83], [0, 1, 1, 0])
-  const c2Y = useTransform(scrollYProgress, [0.39, 0.43, 0.79, 0.83], [40, 0, 0, -40])
+  const c0O = useSpring(useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [0, 1, 1, 0]), SCROLL_SPRING)
+  const c0Y = useSpring(useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [40, 0, 0, -40]), SCROLL_SPRING)
+  const c1O = useSpring(useTransform(scrollYProgress, [0.35, 0.39, 0.76, 0.80], [0, 1, 1, 0]), SCROLL_SPRING)
+  const c1Y = useSpring(useTransform(scrollYProgress, [0.35, 0.39, 0.76, 0.80], [40, 0, 0, -40]), SCROLL_SPRING)
+  const c2O = useSpring(useTransform(scrollYProgress, [0.39, 0.43, 0.79, 0.83], [0, 1, 1, 0]), SCROLL_SPRING)
+  const c2Y = useSpring(useTransform(scrollYProgress, [0.39, 0.43, 0.79, 0.83], [40, 0, 0, -40]), SCROLL_SPRING)
   const cardYs = [c0Y, c1Y, c2Y]
   const cardOs = [c0O, c1O, c2O]
 

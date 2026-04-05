@@ -1,6 +1,6 @@
 import { useRef } from "react"
-import { motion, useScroll } from "framer-motion"
-import { useScrollFadeIn } from "@/lib/motion"
+import { motion, useScroll, useReducedMotion } from "framer-motion"
+import { useScrollFadeIn, VIEWPORT_MARGIN, CARD_TWEEN } from "@/lib/motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
@@ -47,6 +47,7 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function Portfolio() {
+  const reducedMotion = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -67,8 +68,14 @@ export function Portfolio() {
         </h2>
       </motion.div>
       <div className="flex flex-col gap-[24px]">
-        {projects.map((project) => (
-          <div key={project.name}>
+        {projects.map((project, i) => (
+          <motion.div
+            key={project.name}
+            initial={reducedMotion ? false : { opacity: 0, y: 40, rotate: 5 }}
+            whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+            viewport={{ once: true, margin: VIEWPORT_MARGIN.content }}
+            transition={{ ...CARD_TWEEN, delay: i * 0.1 }}
+          >
             <Card className="rounded-sm p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)] border-none">
               <CardContent className="p-0 grid grid-cols-2 gap-[var(--sp-8)] max-md:grid-cols-1 max-md:gap-[var(--sp-6)]">
                 <div className="flex flex-col justify-between max-md:gap-[var(--sp-4)]">
@@ -108,7 +115,7 @@ export function Portfolio() {
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

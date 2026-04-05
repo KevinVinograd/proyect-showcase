@@ -15,6 +15,9 @@ export const VIEWPORT_MARGIN = {
 /** Shared spring — natural deceleration feel used across scroll-driven reveals. */
 export const SCROLL_SPRING = { stiffness: 80, damping: 22 } as const
 
+/** Tween for state-driven card entry (threshold-toggled, not scroll-interpolated). */
+export const CARD_TWEEN = { duration: 0.5, ease: "easeOut" } as const
+
 /**
  * Scroll-driven fade-in: opacity 0→1, y 20→0 with spring physics.
  * Takes a scroll progress MotionValue and the [start, end] range

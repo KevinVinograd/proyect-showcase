@@ -1,6 +1,6 @@
 import { useRef, useState, useLayoutEffect } from "react"
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion"
-import { useScrollFadeIn } from "@/lib/motion"
+import { useScrollFadeIn, CARD_TWEEN } from "@/lib/motion"
 
 const steps = [
   {
@@ -133,7 +133,7 @@ export function Process() {
                 ? { opacity: 1, y: 0, rotate: 0 }
                 : { opacity: 0, y: 80, rotate: 5 }
               }
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              transition={CARD_TWEEN}
             >
               {/* Card with mask hole for the number circle */}
               <div

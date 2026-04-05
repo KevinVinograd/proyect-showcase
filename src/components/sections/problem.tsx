@@ -79,9 +79,19 @@ const CIRCLE_PATH = "M420 8 C550 3, 720 25, 770 70 C810 110, 790 160, 720 185 C6
 
 function ClosingText() {
   const reducedMotion = useReducedMotion()
+  const closingRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: closingProgress } = useScroll({
+    target: closingRef,
+    offset: ["start end", "start start"],
+  })
+  const { opacity: closingO, y: closingY } = useScrollFadeIn(closingProgress, [0.3, 0.6])
 
   return (
-    <div className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] text-center">
+    <motion.div
+      ref={closingRef}
+      className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] text-center"
+      style={{ opacity: closingO, y: closingY }}
+    >
       <div className="relative inline-block">
         <p className="type-h3 text-[var(--color-fg-subtle)] text-shadow-smooth">
           El problema no es tu equipo.
@@ -119,7 +129,7 @@ function ClosingText() {
           )}
         </svg>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
