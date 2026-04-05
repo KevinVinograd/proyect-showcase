@@ -11,7 +11,7 @@ export function HandwrittenArrow() {
           strokeWidth="2"
           strokeLinecap="round"
           fill="none"
-          initial={{ pathLength: 0 }}
+          initial={false}
           whileInView={{ pathLength: 1 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -23,7 +23,7 @@ export function HandwrittenArrow() {
           strokeWidth="2"
           strokeLinecap="round"
           fill="none"
-          initial={{ pathLength: 0 }}
+          initial={false}
           whileInView={{ pathLength: 1 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.25, ease: "easeOut", delay: 0.9 }}
@@ -35,7 +35,7 @@ export function HandwrittenArrow() {
           strokeWidth="2"
           strokeLinecap="round"
           fill="none"
-          initial={{ pathLength: 0 }}
+          initial={false}
           whileInView={{ pathLength: 1 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.25, ease: "easeOut", delay: 0.95 }}

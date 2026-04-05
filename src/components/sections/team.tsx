@@ -7,20 +7,20 @@ const members = [
     role: "Diseño de sistemas y experiencia",
     description:
       "Entiende el problema, define la solución y estructura cómo se usa.",
-    image: "/Ian.png",
+    image: "/Ian.webp",
   },
   {
     name: "Kevin",
     role: "Desarrollo y arquitectura",
     description: "Construye el sistema. Backend, lógica, escalabilidad.",
-    image: "/KV.png",
+    image: "/KV.webp",
   },
   {
     name: "Juan Cruz",
     role: "Operación y negocio",
     description:
       "Trae el contexto real. Asegura que lo que se construye funcione en la práctica.",
-    image: "/JC.png",
+    image: "/JC.webp",
   },
 ]
 
@@ -75,6 +75,10 @@ export function Team() {
                   <img
                     src={member.image}
                     alt={member.name}
+                    width={480}
+                    height={480}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                 </div>

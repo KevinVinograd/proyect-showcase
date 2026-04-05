@@ -31,7 +31,7 @@ export function ZigzagDivider() {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          initial={{ pathLength: 0 }}
+          initial={false}
           whileInView={{ pathLength: 1 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1.8, ease: "easeInOut" }}

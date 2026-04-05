@@ -35,7 +35,6 @@ const projects = [
   },
 ]
 
-const ROTATIONS = [-2, 3, -4] // alternating slight rotations per card
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -52,7 +51,7 @@ export function Portfolio() {
       className="pt-[var(--sp-12)] pb-[var(--sp-30)] max-md:pt-[var(--sp-8)] max-md:pb-[var(--sp-20)]"
     >
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={false}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ margin: "-100px" }}
         transition={{ duration: 0.5, ease: "easeOut" }}
@@ -64,10 +63,10 @@ export function Portfolio() {
         </h2>
       </motion.div>
       <div className="flex flex-col gap-[24px]">
-        {projects.map((project, i) => (
+        {projects.map((project) => (
           <motion.div
             key={project.name}
-            initial={{ opacity: 0, y: 40, scale: 1.08, rotate: ROTATIONS[i % ROTATIONS.length] + 4 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
             viewport={{ margin: "-60px" }}
             transition={{ duration: 0.5, ease: "easeOut" }}

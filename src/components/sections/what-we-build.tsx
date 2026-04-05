@@ -19,7 +19,6 @@ const CARD_MASK: React.CSSProperties = {
   maskComposite: "exclude",
 } as React.CSSProperties
 
-const ROTATIONS = [-2, 1.5, -1]
 
 const blocks = [
   {
@@ -42,7 +41,7 @@ export function WhatWeBuild() {
       <div className="grid grid-cols-2 gap-[var(--sp-12)] max-md:grid-cols-1 items-start">
         <div className="sticky top-[40%] max-md:static">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ margin: "-100px" }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -54,10 +53,10 @@ export function WhatWeBuild() {
           </motion.div>
         </div>
         <div className="flex flex-col gap-[var(--sp-5)]">
-          {blocks.map((block, i) => (
+          {blocks.map((block) => (
             <motion.div
               key={block.title}
-              initial={{ opacity: 0, y: 40, scale: 1.08, rotate: ROTATIONS[i] + 4 }}
+              initial={false}
               whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
               viewport={{ margin: "-60px" }}
               transition={{ duration: 0.5, ease: "easeOut" }}

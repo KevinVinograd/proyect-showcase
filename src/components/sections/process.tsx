@@ -64,7 +64,7 @@ export function Process() {
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         <motion.div
           className="max-w-[var(--container-hero)] mx-auto w-full px-[var(--sp-6)] mb-[40px]"
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ margin: "-100px" }}
           transition={{ duration: 0.5, ease: "easeOut" }}

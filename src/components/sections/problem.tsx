@@ -79,7 +79,7 @@ function ClosingText() {
   return (
     <motion.div
       className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] text-center"
-      initial={{ opacity: 0, y: 20 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ margin: "-100px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -104,7 +104,7 @@ function ClosingText() {
             strokeLinecap="round"
             pathLength={1}
             strokeDasharray="1"
-            initial={{ strokeDashoffset: 1 }}
+            initial={false}
             whileInView={{ strokeDashoffset: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
@@ -118,10 +118,11 @@ function ClosingText() {
 export function Problem() {
   const reducedMotion = useReducedMotion()
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" ? window.innerWidth < 768 : false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768)
+    onResize()
     window.addEventListener("resize", onResize)
     return () => window.removeEventListener("resize", onResize)
   }, [])
@@ -142,7 +143,7 @@ export function Problem() {
         <section id="problems" className="pt-[var(--sp-20)]">
           <motion.div
             className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]"
-            initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ margin: "-100px" }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -155,7 +156,7 @@ export function Problem() {
               {bullets.map((item, i) => (
                 <motion.div
                   key={i}
-                  initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+                  initial={false}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ margin: "-50px" }}
                   transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.08 }}
