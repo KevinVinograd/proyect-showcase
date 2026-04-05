@@ -1,7 +1,7 @@
 import { useRef, useState, useLayoutEffect } from "react"
-import { motion, useScroll, useTransform, useMotionValueEvent, type MotionValue } from "framer-motion"
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion"
 
-const LINE = "Si es repetitivo, no deberías hacerlo."
+const LINE = "Automatizamos tu operación."
 
 const ANIM_DUR = 0.15
 
@@ -102,31 +102,25 @@ export function Hero() {
   const lineProgress = useTransform(scrollYProgress, [0, 0.30], [0, 1])
   const lineOpacity = useTransform(scrollYProgress, [0.52, 0.55], [1, 0.4])
 
-  // — Content holds, then exits [58%, 68%] — must finish before Problem enters at ~71% —
+  // — Content holds, then fades out right after line finishes —
   const contentY = useTransform(
     scrollYProgress,
-    [0, 0.58, 0.68],
-    [0, 0, -200],
+    [0, 0.30, 0.42],
+    [0, 0, -60],
   )
-  const contentOpacity = useTransform(scrollYProgress, [0.60, 0.68], [1, 0])
+  const contentOpacity = useTransform(scrollYProgress, [0.30, 0.42], [1, 0])
 
-  // — Subtitle: appears right after line finishes —
-  const [showSubtitle, setShowSubtitle] = useState(false)
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setShowSubtitle(v >= 0.28)
-  })
 
   return (
-    <section ref={sectionRef} id="hero" aria-label="Inicio" className="relative h-[350vh]">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <section ref={sectionRef} id="hero" aria-label="Inicio" className="relative h-[150vh]">
+      <div className="sticky top-0 h-screen" style={{ clipPath: "inset(0 0 -200px 0)" }}>
         {/* Title block — anchored at bottom-80px */}
         <motion.div
           ref={containerRef}
           className="absolute bottom-[80px] left-0 right-0 pl-[200px] pr-[var(--sp-6)] max-lg:pl-[120px] max-md:pl-[var(--sp-6)]"
           style={{ y: contentY, opacity: contentOpacity }}
         >
-          <h1 className="sr-only">Backbn — Automatización de procesos operativos con software a medida</h1>
-          <p className="type-display text-shadow-smooth text-fg" aria-hidden="true" role="presentation">
+          <h1 className="type-display text-shadow-smooth text-fg">
             <motion.span
               className="block"
               style={{ x, opacity: lineOpacity }}
@@ -138,16 +132,14 @@ export function Hero() {
                 innerRef={lineRef}
               />
             </motion.span>
-          </p>
-          <motion.p
+          </h1>
+          <p
             className="absolute left-0 right-0 top-[calc(100%+80px)] max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] max-md:max-w-none max-md:text-left max-md:ml-0 max-md:pr-0"
-            animate={showSubtitle ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            Errores, retrabajo y dependencia humana.
+            Planillas, carga manual, WhatsApp.
             <br />
-            Lo convertimos en sistema.
-          </motion.p>
+            Lo reemplazamos con software a medida.
+          </p>
         </motion.div>
       </div>
     </section>

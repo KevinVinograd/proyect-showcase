@@ -5,33 +5,33 @@ import { Button } from "@/components/ui/button"
 const projects = [
   {
     name: "KDT Go",
-    type: "Gestión de envíos",
+    type: "Sistema de gestión de envíos",
     problem:
-      "Coordinación por WhatsApp sin visibilidad del estado de cada entrega.",
+      "Coordinación de entregas por WhatsApp. Sin visibilidad del estado de cada envío.",
     solution:
-      "Tracking en tiempo real con asignación automática.",
+      "Tracking en tiempo real, asignación automática de repartidores y notificaciones al cliente.",
     result:
-      "+200K envíos gestionados. Visibilidad total sin llamadas manuales.",
+      "+200K envíos gestionados sin coordinación manual.",
   },
   {
     name: "Vendiar",
-    type: "Punto de venta e inventario",
+    type: "Punto de venta con inventario integrado",
     problem:
-      "Stock en planillas desactualizadas. Decisiones de compra a ojo.",
+      "Stock controlado en planillas. Decisiones de compra basadas en intuición.",
     solution:
-      "POS con inventario integrado y reportes automáticos.",
+      "POS con control de inventario en tiempo real y reportes de reposición automáticos.",
     result:
-      "Control total de stock, ventas y reposición en una sola pantalla.",
+      "Stock, ventas y reposición unificados en una sola pantalla.",
   },
   {
     name: "FitBdy",
-    type: "Seguimiento fitness con IA",
+    type: "Plataforma de entrenamiento adaptativo con IA",
     problem:
-      "Planes de entrenamiento estáticos que no se adaptan al progreso.",
+      "Planes de entrenamiento estáticos que no se ajustan al progreso real del usuario.",
     solution:
-      "Rutinas que se ajustan según el avance real de cada usuario.",
+      "Rutinas generadas por IA que se adaptan según el avance, la carga y la adherencia.",
     result:
-      "Entrenamiento personalizado y adaptativo sin intervención constante.",
+      "Entrenamiento personalizado sin intervención manual del entrenador.",
   },
 ]
 

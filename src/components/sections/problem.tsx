@@ -15,8 +15,8 @@ const bullets = [
     right: "se detecta recién cuando el cliente reclama.",
   },
   {
-    left: "El que sabe cómo funciona todo se fue de vacaciones",
-    right: "y nadie puede cubrir.",
+    left: "El proceso depende de una persona",
+    right: "y cuando no está, todo se frena.",
   },
 ]
 
@@ -89,7 +89,7 @@ function ClosingText() {
           El problema no es tu equipo.
         </p>
         <p className="type-h3 text-[var(--color-fg)] text-shadow-smooth">
-          Es que el proceso depende de personas haciendo trabajo de máquina.
+          Es que el proceso depende de personas haciendo tareas que un sistema debería resolver.
         </p>
         {/* Hand-drawn circle highlight */}
         <svg
@@ -132,9 +132,16 @@ export function Problem() {
     offset: ["start start", "end end"],
   })
 
-  // Heading fade — must be top-level hooks (not inside JSX)
-  const headingOpacity = useTransform(scrollYProgress, [0.08, 0.18], [0, 1])
-  const headingY = useTransform(scrollYProgress, [0.08, 0.18], [20, 0])
+  // Approach phase: tracks from "section top at viewport bottom" to "section top at viewport top"
+  const { scrollYProgress: approachProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  })
+
+  // Heading fades in during approach — visible before the section pins
+  const spring = { stiffness: 80, damping: 22 }
+  const headingOpacity = useSpring(useTransform(approachProgress, [0.4, 0.7], [0, 1]), spring)
+  const headingY = useSpring(useTransform(approachProgress, [0.4, 0.7], [20, 0]), spring)
 
   /* ─── Mobile: vertical list with scroll-driven fade ─── */
   if (isMobile) {

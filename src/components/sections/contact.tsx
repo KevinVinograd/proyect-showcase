@@ -2,7 +2,7 @@ import { useRef } from "react"
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
-const TITLE = "Si todos los días repetís algo que debería estar automatizado, escribinos."
+const TITLE = "Contanos qué proceso querés automatizar."
 const BG = "#080c16"
 
 const ANIM_DUR = 0.12
@@ -63,7 +63,7 @@ export function Contact() {
 
 
   return (
-    <section ref={sectionRef} id="contacto" className="relative z-20 h-[250vh]">
+    <section ref={sectionRef} id="contacto" className="relative z-30 h-[250vh]">
       <div className="sticky top-0 h-screen flex items-center">
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] w-full">
           <h2 className="sr-only">Contacto — Hablemos sobre tu operación</h2>
@@ -84,18 +84,14 @@ export function Contact() {
 
           <motion.div style={{ opacity: bodyOpacity, y: bodyY }}>
             <p className="font-[var(--font-body)] text-[length:24px] text-[var(--color-fg-subtle)] leading-[1.7] max-w-[700px] mt-[var(--sp-8)]">
-              La primera conversación es para entender el problema.
+              La primera conversación es para entender tu operación.
               <br />
               Sin compromiso, sin presentación de 40 slides.
             </p>
             <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] max-md:flex-col max-md:items-stretch">
               <Button asChild size="xl">
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Escribinos por LinkedIn
+                <a href="mailto:hola@kij.dev">
+                  Agendar una conversación
                 </a>
               </Button>
             </div>

@@ -31,27 +31,31 @@ export function Team() {
     offset: ["start start", "end end"],
   })
 
-  const sectionOpacity = useTransform(scrollYProgress, [0.94, 1], [1, 0])
-  const sectionY = useTransform(scrollYProgress, [0.94, 1], [0, -40])
+  // offset ["start start", "end end"] → progress 0 cuando section-top = viewport-top
+  // Section 350vh → 250vh scroll travel
+  // Fase 1 — Fade-in cascada (0.25 → 0.43): título, card0, card1, card2 (mitad de sección)
+  // Fase 2 — Hold al 100% (~0.43 → 0.70)
+  // Fase 3 — Fade-out cascada (0.70 → 0.84)
+  // Fase 4 — Espacio muerto (0.84 → 1)
 
-  // Fade-out escalonado por card
-  const c0Y = useTransform(scrollYProgress, [0.94, 1], [0, -50])
-  const c1Y = useTransform(scrollYProgress, [0.95, 1], [0, -70])
-  const c2Y = useTransform(scrollYProgress, [0.96, 1], [0, -90])
+  const titleO = useTransform(scrollYProgress, [0.25, 0.31, 0.70, 0.74], [0, 1, 1, 0])
+  const titleY = useTransform(scrollYProgress, [0.25, 0.31, 0.70, 0.74], [20, 0, 0, -30])
+
+  const c0O = useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [0, 1, 1, 0])
+  const c0Y = useTransform(scrollYProgress, [0.31, 0.35, 0.73, 0.77], [40, 0, 0, -40])
+  const c1O = useTransform(scrollYProgress, [0.35, 0.39, 0.76, 0.80], [0, 1, 1, 0])
+  const c1Y = useTransform(scrollYProgress, [0.35, 0.39, 0.76, 0.80], [40, 0, 0, -40])
+  const c2O = useTransform(scrollYProgress, [0.39, 0.43, 0.79, 0.83], [0, 1, 1, 0])
+  const c2Y = useTransform(scrollYProgress, [0.39, 0.43, 0.79, 0.83], [40, 0, 0, -40])
   const cardYs = [c0Y, c1Y, c2Y]
+  const cardOs = [c0O, c1O, c2O]
 
   return (
-    <section ref={sectionRef} id="equipo" className="relative z-10 h-[200vh] max-md:h-[250vh]">
-      <motion.div
+    <section ref={sectionRef} id="equipo" className="relative z-20 h-[350vh] max-md:h-[400vh]">
+      <div
         className="sticky top-0 h-screen flex flex-col justify-center max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]"
-        style={{ opacity: sectionOpacity, y: sectionY }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ margin: "-100px" }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
+        <motion.div style={{ opacity: titleO, y: titleY }}>
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Quiénes somos</p>
           <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-3)] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
             Tres roles, una misma mesa
@@ -65,11 +69,7 @@ export function Team() {
               <motion.div
                 key={member.name}
                 className={`${offsets[i]} max-md:mt-0`}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ margin: "-60px" }}
-                transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.15 }}
-                style={{ y: cardYs[i] }}
+                style={{ y: cardYs[i], opacity: cardOs[i] }}
               >
                 <div className="aspect-[4/5] rounded-sm bg-[var(--color-surface-flat)] overflow-hidden">
                   <img
@@ -103,7 +103,7 @@ export function Team() {
             )
           })}
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

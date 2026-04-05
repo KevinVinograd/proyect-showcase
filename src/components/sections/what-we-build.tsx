@@ -22,16 +22,16 @@ const CARD_MASK: React.CSSProperties = {
 
 const blocks = [
   {
-    title: "Lo que se repite, se ejecuta solo.",
-    body: "Carga de datos, reportes, cruces de información: dejan de ser tareas y pasan a ser algo que simplemente ocurre.",
+    title: "Tareas repetitivas que se ejecutan solas",
+    body: "Carga de datos, reportes, cruces de información — dejan de ser tareas manuales y pasan a correr automáticamente.",
   },
   {
-    title: "Lo que está disperso, aparece en un lugar.",
-    body: "El estado real de la operación visible para todos, siempre. Sin planillas, sin preguntar por WhatsApp.",
+    title: "Información dispersa en un solo lugar",
+    body: "El estado real de la operación visible para todos, en tiempo real. Sin planillas, sin preguntar por WhatsApp.",
   },
   {
-    title: "Lo que ya funciona, no se toca.",
-    body: "Conectamos lo que sirve, construimos lo que falta. Sin reemplazar por reemplazar.",
+    title: "Sistemas que conectan lo que ya tenés",
+    body: "Integramos con lo que ya funciona, construimos lo que falta. Sin reemplazar por reemplazar.",
   },
 ]
 

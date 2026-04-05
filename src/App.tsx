@@ -54,6 +54,7 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <div className="h-[15vh]" />
         <Problem />
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
           <Reveal><WhatWeBuild /></Reveal>
