@@ -243,10 +243,11 @@ export function ShaderBackground() {
   useEffect(() => {
     let rafId = 0
     let running = false
+    let paused = false
     let lastRenderTime = 0
     const LERP_SPEED = 0.045
     const DIST_EPSILON = 0.001
-    const RENDER_INTERVAL = 1000 / 30
+    const RENDER_INTERVAL = 1000 / 20 // ~20fps — sufficient for gradient blends
 
     function applyBlend() {
       const pos = smoothPos.current
@@ -257,6 +258,8 @@ export function ShaderBackground() {
     }
 
     function tick(time: number) {
+      if (paused) { running = false; return }
+
       smoothPos.current = lerp(smoothPos.current, targetPos.current, LERP_SPEED)
       const dist = Math.abs(smoothPos.current - targetPos.current)
 
@@ -275,12 +278,13 @@ export function ShaderBackground() {
     }
 
     function startLoop() {
-      if (running) return
+      if (running || paused) return
       running = true
       rafId = requestAnimationFrame(tick)
     }
 
     const onScroll = () => {
+      if (paused) return
       let segPos = 0
       for (let i = 1; i < PRESETS.length; i++) {
         if (!elCache.current[i]) {
@@ -297,10 +301,24 @@ export function ShaderBackground() {
       startLoop()
     }
 
+    // Pause when tab is not visible
+    const onVisibility = () => {
+      if (document.hidden) {
+        paused = true
+        cancelAnimationFrame(rafId)
+        running = false
+      } else {
+        paused = false
+        startLoop()
+      }
+    }
+
     window.addEventListener("scroll", onScroll, { passive: true })
+    document.addEventListener("visibilitychange", onVisibility)
     onScroll()
     return () => {
       window.removeEventListener("scroll", onScroll)
+      document.removeEventListener("visibilitychange", onVisibility)
       cancelAnimationFrame(rafId)
     }
   }, [])
@@ -324,7 +342,7 @@ export function ShaderBackground() {
           pixelDensity={1}
           pointerEvents="none"
         >
-          <ShaderGradient {...blended} />
+          <ShaderGradient {...blended as any} />
         </ShaderGradientCanvas>
       </div>
     </WebGLBoundary>

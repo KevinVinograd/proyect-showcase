@@ -65,8 +65,8 @@ export function Navbar() {
         />
       ))}
 
-      <span className="px-4 max-sm:px-2.5 font-[var(--font-heading)] text-[15px] font-[800] text-white tracking-[-0.02em] select-none">
-        KIJ
+      <span className="px-4 max-sm:px-2.5 font-[var(--font-heading)] text-[19px] font-[800] text-white tracking-[-0.02em] select-none">
+        Backbn
       </span>
 
       {right.map((item) => (

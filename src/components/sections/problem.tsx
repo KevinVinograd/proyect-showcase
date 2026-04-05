@@ -118,7 +118,7 @@ function ClosingText() {
 export function Problem() {
   const reducedMotion = useReducedMotion()
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" ? window.innerWidth < 768 : false)
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768)

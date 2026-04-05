@@ -1,4 +1,4 @@
-const logos: { name: string; svg: JSX.Element }[] = [
+const logos: { name: string; svg: React.ReactNode }[] = [
   {
     name: "React",
     svg: (

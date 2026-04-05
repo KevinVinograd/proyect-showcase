@@ -1,47 +1,71 @@
-import { motion } from "framer-motion"
+import { useRef } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
 export function Contact() {
+  const sectionRef = useRef<HTMLElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start 0.3"],
+  })
+
+  const headingOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1])
+  const headingY = useTransform(scrollYProgress, [0, 0.5], [40, 0])
+  const bodyOpacity = useTransform(scrollYProgress, [0.3, 0.7], [0, 1])
+  const bodyY = useTransform(scrollYProgress, [0.3, 0.7], [30, 0])
+  const ctaOpacity = useTransform(scrollYProgress, [0.5, 0.9], [0, 1])
+  const ctaY = useTransform(scrollYProgress, [0.5, 0.9], [20, 0])
+
   return (
     <section
+      ref={sectionRef}
       id="contacto"
-      className="relative z-20 bg-white pt-[120px] pb-[40px] max-md:pt-[80px]"
+      className="relative z-20 pt-[160px] pb-[40px] max-md:pt-[100px]"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ margin: "-100px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="text-center px-[var(--sp-10)] max-w-[700px] max-md:max-w-[90vw] mx-auto"
-      >
-        <p className="type-overline text-black/50 mb-[var(--sp-3)]">Contacto</p>
-        <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-black tracking-[-0.02em] leading-[60px] max-md:leading-[52px] max-w-[var(--container-contact-title)] mx-auto mb-[var(--sp-5)]">
+      <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
+        <motion.p
+          className="type-overline text-shadow-smooth mb-[var(--sp-3)]"
+          style={{ opacity: headingOpacity, y: headingY }}
+        >
+          Contacto
+        </motion.p>
+        <motion.h2
+          className="type-display text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.5)] text-shadow-smooth max-md:text-[length:var(--text-h1)] max-md:leading-[1.1] max-md:tracking-[-0.03em] max-w-[900px] mb-[var(--sp-8)]"
+          style={{ opacity: headingOpacity, y: headingY }}
+        >
           Si todos los días repetís algo que debería estar automatizado,
           escribinos.
-        </h2>
-        <p className="font-[var(--font-body)] text-[length:var(--text-body-lg)] text-black/60 leading-[1.7] max-w-[var(--container-contact-sub)] mx-auto">
+        </motion.h2>
+        <motion.p
+          className="font-[var(--font-body)] text-[length:var(--text-body-lg)] text-[var(--color-fg-subtle)] leading-[1.7] max-w-[var(--container-contact-sub)]"
+          style={{ opacity: bodyOpacity, y: bodyY }}
+        >
           La primera conversación es para entender el problema.
           <br />
           Sin compromiso, sin presentación de 40 slides.
-        </p>
-        <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] justify-center max-md:flex-col max-md:items-stretch">
-          <Button asChild className="bg-black text-white hover:bg-black/90 border-black">
-            <a href="mailto:contacto@example.com">Escribinos</a>
-          </Button>
-          <Button variant="outline" asChild className="border-black/20 text-black hover:bg-black/5">
+        </motion.p>
+        <motion.div
+          className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] max-md:flex-col max-md:items-stretch"
+          style={{ opacity: ctaOpacity, y: ctaY }}
+        >
+          <Button asChild>
             <a
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
             >
-              LinkedIn
+              Escribinos por LinkedIn
             </a>
           </Button>
-        </div>
-        <p className="mt-[var(--sp-20)] text-[length:var(--text-caption)] text-black/50">
+        </motion.div>
+        <motion.p
+          className="mt-[var(--sp-20)] text-[length:var(--text-caption)] text-[var(--color-fg-disabled)]"
+          style={{ opacity: ctaOpacity }}
+        >
           &copy; {new Date().getFullYear()}
-        </p>
-      </motion.div>
+        </motion.p>
+      </div>
     </section>
   )
 }

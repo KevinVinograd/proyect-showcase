@@ -1,9 +1,12 @@
 import { motion } from "framer-motion"
-import { useEffect, type ReactNode } from "react"
+import { lazy, Suspense, useEffect, type ReactNode } from "react"
 import Lenis from "lenis"
 import { setLenis } from "@/lib/lenis"
-import { ShaderBackground } from "@/components/shell/shader-background"
 import { Navbar } from "@/components/shell/navbar"
+
+const ShaderBackground = lazy(() =>
+  import("@/components/shell/shader-background").then((m) => ({ default: m.ShaderBackground }))
+)
 import { Hero } from "@/components/sections/hero"
 import { Problem } from "@/components/sections/problem"
 import { WhatWeBuild } from "@/components/sections/what-we-build"
@@ -45,7 +48,9 @@ export default function App() {
 
   return (
     <>
-      <ShaderBackground />
+      <Suspense fallback={null}>
+        <ShaderBackground />
+      </Suspense>
       <Navbar />
       <Hero />
       <Problem />
