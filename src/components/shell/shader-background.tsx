@@ -139,7 +139,7 @@ const PRESETS: PresetOverrides[] = [
     color3: "#7E260E",
   },
   {
-    triggerId: "impacto",
+    triggerId: "servicios",
     color1: "#1B0A2E",
     color2: "#E8562A",
     color3: "#F5A623",

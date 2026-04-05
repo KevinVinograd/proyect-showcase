@@ -52,20 +52,22 @@ export default function App() {
         <ShaderBackground />
       </Suspense>
       <Navbar />
-      <Hero />
-      <Problem />
-      <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
-        <Reveal><WhatWeBuild /></Reveal>
-      </div>
-      <ZigzagDivider />
-      <Process />
-      <HandwrittenArrow />
-      <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
-        <Reveal><Portfolio /></Reveal>
-      </div>
-      <Technologies />
-      <Team />
-      <Contact />
+      <main>
+        <Hero />
+        <Problem />
+        <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
+          <Reveal><WhatWeBuild /></Reveal>
+        </div>
+        <ZigzagDivider />
+        <Process />
+        <HandwrittenArrow />
+        <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
+          <Reveal><Portfolio /></Reveal>
+        </div>
+        <Technologies />
+        <Team />
+        <Contact />
+      </main>
     </>
   )
 }

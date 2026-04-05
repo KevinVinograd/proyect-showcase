@@ -59,7 +59,7 @@ export function Portfolio() {
       >
         <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Casos reales</p>
         <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
-          Proyectos
+          Proyectos que ya operan sin intervención manual
         </h2>
       </motion.div>
       <div className="flex flex-col gap-[24px]">

@@ -37,7 +37,7 @@ const blocks = [
 
 export function WhatWeBuild() {
   return (
-    <section id="impacto" className="py-[var(--sp-30)] max-md:py-[var(--sp-20)]">
+    <section id="servicios" className="py-[var(--sp-30)] max-md:py-[var(--sp-20)]">
       <div className="grid grid-cols-2 gap-[var(--sp-12)] max-md:grid-cols-1 items-start">
         <div className="sticky top-[40%] max-md:static">
           <motion.div
@@ -46,7 +46,7 @@ export function WhatWeBuild() {
             viewport={{ margin: "-100px" }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">El impacto</p>
+            <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Qué automatizamos</p>
             <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[1.15] text-shadow-smooth">
               Lo que cambia cuando dejás de operar a mano
             </h2>

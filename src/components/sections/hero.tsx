@@ -117,7 +117,7 @@ export function Hero() {
   })
 
   return (
-    <section ref={sectionRef} id="hero" className="relative h-[350vh]">
+    <section ref={sectionRef} id="hero" aria-label="Inicio" className="relative h-[350vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Title block — anchored at bottom-80px */}
         <motion.div
@@ -125,7 +125,8 @@ export function Hero() {
           className="absolute bottom-[80px] left-0 right-0 pl-[200px] pr-[var(--sp-6)] max-lg:pl-[120px] max-md:pl-[var(--sp-6)]"
           style={{ y: contentY, opacity: contentOpacity }}
         >
-          <h1 className="type-display text-shadow-smooth text-fg">
+          <h1 className="sr-only">Backbn — Automatización de procesos operativos con software a medida</h1>
+          <p className="type-display text-shadow-smooth text-fg" aria-hidden="true" role="presentation">
             <motion.span
               className="block"
               style={{ x, opacity: lineOpacity }}
@@ -137,7 +138,7 @@ export function Hero() {
                 innerRef={lineRef}
               />
             </motion.span>
-          </h1>
+          </p>
           <motion.p
             className="absolute left-0 right-0 top-[calc(100%+80px)] max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] max-md:max-w-none max-md:text-left max-md:ml-0 max-md:pr-0"
             animate={showSubtitle ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
