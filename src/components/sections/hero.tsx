@@ -117,7 +117,7 @@ export function Hero() {
   /* Reduced motion: static visible hero, no scroll-linked animation */
   if (reducedMotion) {
     return (
-      <section id="hero" aria-label="Inicio" className="relative min-h-screen flex items-end pb-[80px]">
+      <section id="hero" aria-label="Inicio" className="relative min-h-screen flex items-end pb-[var(--sp-20)]">
         <div
           ref={containerRef}
           className="pl-[200px] pr-[var(--sp-6)] max-lg:pl-[120px] max-md:pl-[var(--sp-6)] w-full"
@@ -125,7 +125,7 @@ export function Hero() {
           <h1 className="type-display text-shadow-smooth text-fg">
             <span ref={lineRef}>{LINE}</span>
           </h1>
-          <p className="max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] mt-[80px] max-md:max-w-none max-md:text-left max-md:ml-0 max-md:pr-0">
+          <p className="max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] mt-[var(--sp-20)] max-md:max-w-none max-md:text-left max-md:ml-0 max-md:pr-0">
             Planillas, carga manual, WhatsApp.
             <br />
             Lo reemplazamos con software a medida.
@@ -141,7 +141,7 @@ export function Hero() {
         {/* Title block — anchored at bottom-80px */}
         <motion.div
           ref={containerRef}
-          className="absolute bottom-[80px] left-0 right-0 pl-[200px] pr-[var(--sp-6)] max-lg:pl-[120px] max-md:pl-[var(--sp-6)]"
+          className="absolute bottom-[var(--sp-20)] left-0 right-0 pl-[200px] pr-[var(--sp-6)] max-lg:pl-[120px] max-md:pl-[var(--sp-6)]"
           style={{ y: contentY, opacity: contentOpacity }}
         >
           <h1 className="type-display text-shadow-smooth text-fg">
@@ -158,7 +158,7 @@ export function Hero() {
             </motion.span>
           </h1>
           <motion.p
-            className="absolute left-0 right-0 top-[calc(100%+80px)] max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] max-md:max-w-none max-md:text-left max-md:ml-0 max-md:pr-0"
+            className="absolute left-0 right-0 top-[calc(100%+var(--sp-20))] max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] max-md:max-w-none max-md:text-left max-md:ml-0 max-md:pr-0"
             style={{ opacity: subtitleO, y: subtitleY }}
           >
             Planillas, carga manual, WhatsApp.

@@ -67,7 +67,7 @@ export function Portfolio() {
           Proyectos que ya operan sin intervención manual
         </h2>
       </motion.div>
-      <div className="flex flex-col gap-[24px]">
+      <div className="flex flex-col gap-[var(--sp-6)]">
         {projects.map((project, i) => (
           <motion.div
             key={project.name}

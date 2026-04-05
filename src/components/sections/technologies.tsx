@@ -97,7 +97,7 @@ export function Technologies() {
         {[...logos, ...logos].map((logo, i) => (
           <div
             key={`${logo.name}-${i}`}
-            className="flex items-center justify-center mx-10 text-white opacity-30 shrink-0"
+            className="flex items-center justify-center mx-[var(--sp-10)] text-white opacity-30 shrink-0"
           >
             <div className="h-[100px] w-[100px]">{logo.svg}</div>
           </div>

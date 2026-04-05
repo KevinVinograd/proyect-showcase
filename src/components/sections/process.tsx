@@ -72,13 +72,13 @@ export function Process() {
     return (
       <section id="proceso" className="relative py-[var(--sp-30)] max-md:py-[var(--sp-20)]">
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
-          <div className="mb-[40px]">
+          <div className="mb-[var(--sp-10)]">
             <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
             <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
               De problema a sistema en cuatro pasos
             </h2>
           </div>
-          <div className="grid grid-cols-2 gap-[24px] max-md:grid-cols-1">
+          <div className="grid grid-cols-2 gap-[var(--sp-6)] max-md:grid-cols-1">
             {steps.map((step) => (
               <div key={step.number} className="relative">
                 <div
@@ -111,7 +111,7 @@ export function Process() {
     <section ref={sectionRef} id="proceso" className="h-[300vh] relative">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         <motion.div
-          className="max-w-[var(--container-hero)] mx-auto w-full px-[var(--sp-6)] mb-[40px]"
+          className="max-w-[var(--container-hero)] mx-auto w-full px-[var(--sp-6)] mb-[var(--sp-10)]"
           style={{ opacity: headingO, y: headingY }}
         >
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
@@ -122,7 +122,7 @@ export function Process() {
 
         <motion.div
           ref={trackRef}
-          className="flex gap-[24px] pl-[max(var(--sp-6),calc((100vw-var(--container-hero))/2+var(--sp-6)))] pr-[80px]"
+          className="flex gap-[var(--sp-6)] pl-[max(var(--sp-6),calc((100vw-var(--container-hero))/2+var(--sp-6)))] pr-[var(--sp-20)]"
           style={{ x }}
         >
           {steps.map((step, i) => (
