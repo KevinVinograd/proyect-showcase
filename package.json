@@ -13,7 +13,8 @@
     "qa:visual:keep": "node tools/puppeteer/runner.mjs --keep",
     "qa:visual:mobile": "node tools/puppeteer/runner.mjs --mobile",
     "qa:visual:grid": "node tools/puppeteer/runner.mjs --suite layout",
-    "qa:visual:clean": "node tools/puppeteer/runner.mjs --clean"
+    "qa:visual:clean": "node tools/puppeteer/runner.mjs --clean",
+    "qa:gate": "node tools/puppeteer/gate.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

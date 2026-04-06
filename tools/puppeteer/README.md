@@ -113,6 +113,61 @@ The `.artifacts/` directory is gitignored.
 - Lazy-loaded content depends on a scroll-through trigger. Race conditions with slow resources are possible.
 - The dev server must be restarted for code changes to be detected by headless Chrome (Vite HMR doesn't propagate to headless sessions).
 
+## Merge gate
+
+The visual QA system serves as a pre-merge quality gate for landing-page changes. One command runs the full pipeline against a production build:
+
+```bash
+npm run qa:gate
+```
+
+This builds the project, starts a preview server, runs all visual QA checks, and exits with a merge-blocking code if critical issues are found.
+
+### Merge-blocking rule
+
+| Finding level | Merge status |
+|---------------|-------------|
+| **critical** | Blocked — must fix before merge |
+| **warning** | Not blocked — must be reviewed, acknowledged in PR |
+| **info** | Not blocked — no action required |
+
+### When to run
+
+Run `npm run qa:gate` before opening or merging any PR that touches:
+- Layout structure (`src/` components, pages, sections)
+- Responsive behavior or viewport-dependent logic
+- CSS/Tailwind changes affecting spatial layout
+- Image sizing or aspect ratios
+- Navigation structure
+
+Not required for: documentation, tooling, CI config, dependency bumps, or changes with no rendered-layout impact.
+
+### What it enforces
+
+- Structural geometry: overflow, sizing, navigation position, image dimensions
+- Across 5 viewports from mobile (375px) to desktop (1440px)
+- Against a real production build, not a dev server
+
+### What it does NOT enforce
+
+- Visual correctness (colors, fonts, spacing aesthetics)
+- Interaction behavior (hover states, animations, scroll effects)
+- Content correctness
+- Performance
+
+This is structural layout QA, not full visual QA. It catches breakage, not design drift.
+
+### CI integration
+
+The `visual-qa.yml` GitHub Actions workflow runs the gate automatically on PRs to `main` that modify `src/`, `public/`, or `index.html`. Screenshots are uploaded as artifacts on failure.
+
+### Debugging a failure
+
+1. Run `npm run qa:gate -- --keep` to preserve screenshots
+2. Check `.artifacts/puppeteer/` for full-page screenshots at each viewport
+3. Read the terminal report — critical findings include the CSS selector and description
+4. Fix the structural issue and re-run
+
 ## Reuse in other repos
 
 Copy `tools/puppeteer/`, add the `qa:*` scripts to `package.json`, ensure `.artifacts/` is gitignored, and install `puppeteer` as a devDependency.
