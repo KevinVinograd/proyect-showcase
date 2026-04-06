@@ -91,7 +91,7 @@ const logos: { name: string; svg: React.ReactNode }[] = [
 
 export function Technologies() {
   return (
-    <section className="py-[var(--sp-20)] max-md:py-[var(--sp-12)] overflow-hidden" aria-label="Tecnologías">
+    <section className="py-[var(--sp-20)] overflow-hidden max-md:hidden" aria-label="Tecnologías">
       <h2 className="sr-only">Tecnologías que usamos</h2>
       <div className="flex animate-marquee" style={{ width: "max-content" }}>
         {[...logos, ...logos].map((logo, i) => (

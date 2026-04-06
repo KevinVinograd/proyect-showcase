@@ -179,14 +179,18 @@
 }
 
 @media (max-width: 767px) {
+  :root {
+    --text-h3: 28px;
+  }
+
   .type-display {
-    font-size: var(--text-h1);
-    line-height: 1.1;
+    font-size: clamp(36px, 11.5vw, 44px);
+    line-height: 1.05;
     letter-spacing: -0.03em;
   }
 
   .type-display-2 {
-    font-size: var(--text-h2);
+    font-size: 32px;
     line-height: 1.1;
     letter-spacing: -0.02em;
   }
@@ -195,6 +199,11 @@
     font-size: var(--text-h2);
     line-height: 60px;
     letter-spacing: -0.02em;
+  }
+
+  .type-h3 {
+    line-height: 36px;
+    letter-spacing: -0.015em;
   }
 }
 
@@ -205,10 +214,12 @@
 
 html {
   color-scheme: dark;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--color-background);
   color: var(--color-fg-subtle);
   font-family: var(--font-body);

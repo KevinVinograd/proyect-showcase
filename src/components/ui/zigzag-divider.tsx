@@ -1,8 +1,18 @@
+import { useState, useEffect } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 import { VIEWPORT_MARGIN, DRAW_EASE } from "@/lib/motion"
 
 export function ZigzagDivider() {
   const reducedMotion = useReducedMotion()
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < 768,
+  )
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
+  }, [])
   // Hand-drawn zigzag — irregular peaks for a natural, sketched feel
   const d =
     "M0 22 C4 22, 8 18, 14 4 C18 -4, 22 -2, 28 16 C32 28, 38 30, 44 6 " +
@@ -21,13 +31,13 @@ export function ZigzagDivider() {
     "C588 -8, 594 -4, 600 18"
 
   return (
-    <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] pt-[160px] pb-0">
+    <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] pt-[160px] max-md:pt-[var(--sp-12)] pb-0">
       <svg
         className="w-full overflow-visible"
         viewBox="0 0 600 32"
         fill="none"
       >
-        {reducedMotion ? (
+        {reducedMotion || isMobile ? (
           <path
             d={d}
             stroke="rgba(255,255,255,0.5)"

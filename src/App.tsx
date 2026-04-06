@@ -40,7 +40,7 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <div className="h-[8vh]" />
+        <div className="h-[8vh] max-md:h-[var(--sp-6)]" />
         <Problem />
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
           <WhatWeBuild />

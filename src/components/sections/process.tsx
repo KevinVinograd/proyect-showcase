@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect } from "react"
+import { useRef, useState, useEffect, useLayoutEffect } from "react"
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion"
 import { useScrollFadeIn, CARD_TWEEN } from "@/lib/motion"
 
@@ -30,8 +30,18 @@ export function Process() {
   const sectionRef = useRef<HTMLElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const [travel, setTravel] = useState(0)
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < 768,
+  )
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
+  }, [])
 
   useLayoutEffect(() => {
+    if (isMobile) return
     function measure() {
       if (!trackRef.current) return
       const trackW = trackRef.current.scrollWidth
@@ -41,7 +51,7 @@ export function Process() {
     measure()
     window.addEventListener("resize", measure)
     return () => window.removeEventListener("resize", measure)
-  }, [])
+  }, [isMobile])
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -67,6 +77,46 @@ export function Process() {
     setVisibleCount(count)
   })
 
+  /* Mobile: vertical stack, simple entry animations, no horizontal scroll */
+  if (isMobile) {
+    return (
+      <section id="proceso" className="relative py-[var(--sp-20)]">
+        <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
+          <div className="mb-[var(--sp-10)]">
+            <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
+            <h2 className="font-[var(--font-heading)] text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[36px] text-shadow-smooth">
+              De problema a sistema en cuatro pasos
+            </h2>
+          </div>
+          <div className="flex flex-col gap-[var(--sp-6)]">
+            {steps.map((step) => (
+              <div key={step.number} className="relative">
+                <div
+                  className="rounded-sm p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)] h-full"
+                  style={{
+                    maskImage: "radial-gradient(circle 22px at 46px 46px, transparent 100%, black 100%)",
+                    WebkitMaskImage: "radial-gradient(circle 22px at 46px 46px, transparent 100%, black 100%)",
+                  }}
+                >
+                  <div className="h-[var(--step-number-size)] mb-[var(--sp-5)]" />
+                  <p className="type-h5 text-left text-[var(--color-fg-reverse)] mb-[var(--sp-2)]">
+                    {step.title}
+                  </p>
+                  <p className="text-[length:var(--text-body-lg)] text-left text-[var(--color-fg-reverse)] opacity-60 leading-[1.5] tracking-[0]">
+                    {step.body}
+                  </p>
+                </div>
+                <div className="absolute top-[var(--sp-6)] left-[var(--sp-6)] w-[var(--step-number-size)] h-[var(--step-number-size)] flex items-center justify-center font-[var(--font-heading)] text-[length:var(--text-body-md)] font-[800] text-[var(--color-fg)] border border-white/25 rounded-full">
+                  {step.number}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   /* Reduced motion: static grid, all cards visible, no horizontal scroll */
   if (reducedMotion) {
     return (
@@ -74,7 +124,7 @@ export function Process() {
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
           <div className="mb-[var(--sp-10)]">
             <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
-            <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
+            <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[36px] text-shadow-smooth">
               De problema a sistema en cuatro pasos
             </h2>
           </div>
@@ -115,7 +165,7 @@ export function Process() {
           style={{ opacity: headingO, y: headingY }}
         >
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
-          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
+          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[36px] text-shadow-smooth">
             De problema a sistema en cuatro pasos
           </h2>
         </motion.div>

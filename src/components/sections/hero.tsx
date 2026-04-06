@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect } from "react"
+import { useRef, useState, useEffect, useLayoutEffect } from "react"
 import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from "framer-motion"
 import { useScrollFadeIn } from "@/lib/motion"
 
@@ -75,8 +75,18 @@ export function Hero() {
   const lineRef = useRef<HTMLSpanElement>(null)
   const [travel, setTravel] = useState(0)
   const [initFrac, setInitFrac] = useState(0)
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < 768,
+  )
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
+  }, [])
 
   useLayoutEffect(() => {
+    if (isMobile) return
     function measure() {
       const c = containerRef.current
       if (!c) return
@@ -92,7 +102,7 @@ export function Hero() {
     measure()
     window.addEventListener("resize", measure)
     return () => window.removeEventListener("resize", measure)
-  }, [])
+  }, [isMobile])
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -114,18 +124,47 @@ export function Hero() {
 
   const { opacity: subtitleO, y: subtitleY } = useScrollFadeIn(scrollYProgress, [0.10, 0.20])
 
-  /* Reduced motion: static visible hero, no scroll-linked animation */
+  /* Mobile: static hero, no animation, mobile-optimized typography */
+  if (isMobile) {
+    return (
+      <section id="hero" aria-label="Inicio" className="relative min-h-dvh flex items-end pb-[40px] overflow-clip">
+        <div className="px-[var(--sp-6)] w-full">
+          <h1 className="type-display text-shadow-smooth text-fg">
+            <span className="block">Automatizamos</span>
+            <span className="block">tu operación.</span>
+          </h1>
+          <p
+            className="text-fg mt-[var(--sp-6)]"
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "18px",
+              lineHeight: "26px",
+              fontWeight: 600,
+              maxWidth: "300px",
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Planillas, carga manual, WhatsApp.
+            <br />
+            Lo reemplazamos con software a medida.
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  /* Reduced motion desktop: static visible hero */
   if (reducedMotion) {
     return (
       <section id="hero" aria-label="Inicio" className="relative min-h-screen flex items-end pb-[var(--sp-20)]">
         <div
           ref={containerRef}
-          className="pl-[200px] pr-[var(--sp-6)] max-lg:pl-[120px] max-md:pl-[var(--sp-6)] w-full"
+          className="pl-[200px] pr-[var(--sp-6)] max-lg:pl-[120px] w-full"
         >
           <h1 className="type-display text-shadow-smooth text-fg">
             <span ref={lineRef}>{LINE}</span>
           </h1>
-          <p className="max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] mt-[var(--sp-20)] max-md:max-w-none max-md:text-left max-md:ml-0 max-md:pr-0">
+          <p className="max-w-[1000px] ml-auto text-right type-h3 text-fg pr-[120px] mt-[var(--sp-20)]">
             Planillas, carga manual, WhatsApp.
             <br />
             Lo reemplazamos con software a medida.

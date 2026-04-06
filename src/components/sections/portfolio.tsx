@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion, useScroll, useReducedMotion } from "framer-motion"
 import { useScrollFadeIn, VIEWPORT_MARGIN, CARD_TWEEN } from "@/lib/motion"
 import { Card, CardContent } from "@/components/ui/card"
@@ -48,6 +48,16 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 
 export function Portfolio() {
   const reducedMotion = useReducedMotion()
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < 768,
+  )
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
+  }, [])
+
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -55,15 +65,57 @@ export function Portfolio() {
   })
   const { opacity: headingO, y: headingY } = useScrollFadeIn(scrollYProgress, [0.3, 0.6])
 
+  /* Mobile: 2 strongest projects, no motion, compact layout */
+  if (isMobile) {
+    const mobileProjects = [projects[0], projects[2]]
+    return (
+      <section id="portfolio" className="pt-[var(--sp-8)] pb-[var(--sp-20)]">
+        <div className="mb-[var(--sp-8)]">
+          <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Casos reales</p>
+          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[36px] text-shadow-smooth">
+            Proyectos en producción
+          </h2>
+        </div>
+        <div className="flex flex-col gap-[var(--sp-6)]">
+          {mobileProjects.map((project) => (
+            <div key={project.name}>
+              <Card className="rounded-sm p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)] border-none">
+                <CardContent className="p-0 flex flex-col gap-[var(--sp-4)]">
+                  <div>
+                    <p className="type-overline !text-[var(--color-fg-reverse-subtle)] mb-[var(--sp-2)]">
+                      {project.type}
+                    </p>
+                    <h3 className="type-h3 text-[var(--color-fg-reverse)]">
+                      {project.name}
+                    </h3>
+                  </div>
+                  <div>
+                    <FieldLabel>Resultado</FieldLabel>
+                    <p className="type-h5 font-[600] text-[var(--color-fg-reverse)] leading-[1.4]">
+                      {project.result}
+                    </p>
+                  </div>
+                  <Button variant="outline" className="w-fit text-[var(--color-fg-reverse)] border-[var(--color-fg-reverse-disabled)] hover:bg-[rgba(0,0,0,0.06)] hover:border-[var(--color-fg-reverse-subtle)] hover:text-[var(--color-fg-reverse)]">
+                    Ver caso
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section
       ref={sectionRef}
       id="portfolio"
-      className="pt-[var(--sp-12)] pb-[var(--sp-30)] max-md:pt-[var(--sp-8)] max-md:pb-[var(--sp-20)]"
+      className="pt-[var(--sp-12)] pb-[var(--sp-30)]"
     >
       <motion.div className="mb-[var(--sp-12)]" style={{ opacity: headingO, y: headingY }}>
         <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Casos reales</p>
-        <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
+        <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] text-shadow-smooth">
           Proyectos que ya operan sin intervención manual
         </h2>
       </motion.div>
@@ -77,8 +129,8 @@ export function Portfolio() {
             transition={{ ...CARD_TWEEN, delay: i * 0.1 }}
           >
             <Card className="rounded-sm p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)] border-none">
-              <CardContent className="p-0 grid grid-cols-2 gap-[var(--sp-8)] max-md:grid-cols-1 max-md:gap-[var(--sp-6)]">
-                <div className="flex flex-col justify-between max-md:gap-[var(--sp-4)]">
+              <CardContent className="p-0 grid grid-cols-2 gap-[var(--sp-8)]">
+                <div className="flex flex-col justify-between">
                   <div>
                     <p className="type-overline !text-[var(--color-fg-reverse-subtle)] mb-[var(--sp-2)]">
                       {project.type}
@@ -87,12 +139,12 @@ export function Portfolio() {
                       {project.name}
                     </h3>
                   </div>
-                  <Button variant="outline" className="w-fit text-[var(--color-fg-reverse)] border-[var(--color-fg-reverse-disabled)] hover:bg-[rgba(0,0,0,0.06)] hover:border-[var(--color-fg-reverse-subtle)] hover:text-[var(--color-fg-reverse)] max-md:mt-auto">
+                  <Button variant="outline" className="w-fit text-[var(--color-fg-reverse)] border-[var(--color-fg-reverse-disabled)] hover:bg-[rgba(0,0,0,0.06)] hover:border-[var(--color-fg-reverse-subtle)] hover:text-[var(--color-fg-reverse)]">
                     Ver caso
                   </Button>
                 </div>
                 <div className="flex flex-col gap-[var(--sp-6)]">
-                  <div className="grid grid-cols-2 gap-[var(--sp-8)] max-md:grid-cols-1 max-md:gap-[var(--sp-5)]">
+                  <div className="grid grid-cols-2 gap-[var(--sp-8)]">
                     <div>
                       <FieldLabel>Problema</FieldLabel>
                       <p className="text-[length:var(--text-body-xl)] text-[var(--color-fg-reverse)] leading-[1.5]">

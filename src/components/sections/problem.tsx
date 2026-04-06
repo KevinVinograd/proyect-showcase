@@ -92,7 +92,7 @@ function ClosingText() {
   return (
     <motion.div
       ref={closingRef}
-      className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] text-center"
+      className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] max-md:py-[var(--sp-20)] text-center overflow-clip"
       style={{ opacity: closingO, y: closingY }}
     >
       <div className="relative inline-block">
@@ -104,7 +104,7 @@ function ClosingText() {
         </p>
         {/* Hand-drawn circle highlight */}
         <svg
-          className="absolute -inset-[40px] w-[calc(100%+80px)] h-[calc(100%+80px)] pointer-events-none overflow-visible"
+          className="absolute -inset-[40px] w-[calc(100%+80px)] h-[calc(100%+80px)] max-md:-inset-[16px] max-md:w-[calc(100%+32px)] max-md:h-[calc(100%+32px)] pointer-events-none overflow-visible"
           viewBox="0 0 800 200"
           fill="none"
         >
@@ -134,11 +134,12 @@ function ClosingText() {
 export function Problem() {
   const reducedMotion = useReducedMotion()
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < 768,
+  )
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768)
-    onResize()
     window.addEventListener("resize", onResize)
     return () => window.removeEventListener("resize", onResize)
   }, [])
@@ -157,27 +158,26 @@ export function Problem() {
   // Heading fades in during approach — visible before the section pins
   const { opacity: headingOpacity, y: headingY } = useScrollFadeIn(approachProgress, [0.4, 0.7])
 
-  /* ─── Mobile: vertical list with scroll-driven fade ─── */
+  /* ─── Mobile: 3 strongest bullets, full-width cards, no rotation ─── */
   if (isMobile) {
+    const mobileBullets = bullets.slice(0, 3)
     return (
       <>
         <section id="problems" className="pt-[var(--sp-20)]">
           <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
             <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">El problema</p>
-            <h2 className="type-h2 text-fg text-shadow-smooth mb-[var(--sp-10)]">
-              Esto pasa todos los días en equipos que operan sin sistema
+            <h2 className="font-[var(--font-heading)] text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[36px] text-shadow-smooth mb-[var(--sp-8)]">
+              Esto pasa todos los días
             </h2>
-            <div className="flex flex-col items-center gap-[var(--sp-6)]">
-              {bullets.map((item, i) => (
+            <div className="flex flex-col gap-[var(--sp-4)]">
+              {mobileBullets.map((item, i) => (
                 <div
                   key={i}
-                  style={{ transform: `rotate(${ROTATIONS[i]}deg)` }}
+                  className="rounded-lg p-[var(--sp-6)] bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)]"
                 >
-                  <div className="w-[240px] h-[240px] rounded-sm p-[var(--sp-5)] flex flex-col justify-end bg-[var(--color-surface-flat)] shadow-[var(--shadow-soft)]">
-                    <p className="type-h5 text-left text-[var(--color-fg-reverse)]">
-                      {item.left} {item.right}
-                    </p>
-                  </div>
+                  <p className="type-h5 text-left text-[var(--color-fg-reverse)]">
+                    {item.left} {item.right}
+                  </p>
                 </div>
               ))}
             </div>

@@ -6,7 +6,7 @@ export function HandwrittenArrow() {
 
   if (reducedMotion) {
     return (
-      <div className="flex justify-center -mt-[var(--sp-12)] mb-[var(--sp-12)]">
+      <div className="flex justify-center -mt-[var(--sp-12)] mb-[var(--sp-12)] max-md:hidden">
         <svg width="50" height="220" viewBox="0 0 50 220" fill="none">
           <path d="M25 2 C28 30, 16 55, 23 85 C30 115, 15 150, 25 195" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" fill="none" />
           <path d="M16 178 L25 200" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" fill="none" />
@@ -17,7 +17,7 @@ export function HandwrittenArrow() {
   }
 
   return (
-    <div className="flex justify-center -mt-[var(--sp-12)] mb-[var(--sp-12)]">
+    <div className="flex justify-center -mt-[var(--sp-12)] mb-[var(--sp-12)] max-md:hidden">
       <svg width="50" height="220" viewBox="0 0 50 220" fill="none">
         {/* Main shaft — wobbly curve, drawn top-to-bottom */}
         <motion.path

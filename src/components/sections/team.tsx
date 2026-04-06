@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion"
 import { useScrollFadeIn, SCROLL_SPRING } from "@/lib/motion"
 
@@ -27,6 +27,16 @@ const members = [
 
 export function Team() {
   const reducedMotion = useReducedMotion()
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < 768,
+  )
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
+  }, [])
+
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -52,13 +62,52 @@ export function Team() {
   const cardYs = [c0Y, c1Y, c2Y]
   const cardOs = [c0O, c1O, c2O]
 
+  /* Mobile: compact vertical stack, no motion, no descriptions */
+  if (isMobile) {
+    return (
+      <section id="equipo" className="relative z-20 py-[var(--sp-12)]">
+        <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
+          <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Quiénes somos</p>
+          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-8)] leading-[36px] text-shadow-smooth">
+            Tres roles, una misma mesa
+          </h2>
+          <div className="flex flex-col gap-[var(--sp-5)]">
+            {members.map((member) => (
+              <div key={member.name}>
+                <div className="aspect-[3/4] rounded-sm bg-[var(--color-surface-flat)] overflow-hidden">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    width={480}
+                    height={480}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="py-[var(--sp-3)]">
+                  <h3 className="font-[var(--font-heading)] text-[length:var(--text-body-lg)] font-[800] text-[var(--color-fg)] mb-[var(--sp-1)] leading-[1.2] tracking-[0]">
+                    {member.name}
+                  </h3>
+                  <div className="font-[var(--font-body)] text-[length:var(--text-caption)] font-[600] text-[var(--color-fg-disabled)] uppercase tracking-[0.06em]">
+                    {member.role}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   /* Reduced motion: static layout, no scroll-linked cascade */
   if (reducedMotion) {
     return (
       <section id="equipo" className="relative z-20 py-[var(--sp-30)] max-md:py-[var(--sp-20)]">
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Quiénes somos</p>
-          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-3)] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
+          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-3)] leading-[60px] max-md:leading-[36px] text-shadow-smooth">
             Tres roles, una misma mesa
           </h2>
           <div className="mb-[var(--sp-12)]" />
@@ -111,7 +160,7 @@ export function Team() {
       >
         <motion.div style={{ opacity: titleO, y: titleY }}>
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Quiénes somos</p>
-          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-3)] leading-[60px] max-md:leading-[52px] text-shadow-smooth">
+          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-3)] leading-[60px] max-md:leading-[36px] text-shadow-smooth">
             Tres roles, una misma mesa
           </h2>
           <div className="mb-[var(--sp-12)]" />

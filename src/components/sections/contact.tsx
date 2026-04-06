@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
@@ -48,6 +48,16 @@ function AnimatedLetter({
 
 export function Contact() {
   const reducedMotion = useReducedMotion()
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < 768,
+  )
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
+  }, [])
+
   const sectionRef = useRef<HTMLElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -62,8 +72,8 @@ export function Contact() {
   const bodyOpacity = useTransform(scrollYProgress, [0.55, 0.70], [0, 1])
   const bodyY = useTransform(scrollYProgress, [0.55, 0.70], [20, 0])
 
-  /* Reduced motion: static layout, letters pre-filled, body visible */
-  if (reducedMotion) {
+  /* Mobile OR reduced motion: static layout, letters pre-filled, body visible */
+  if (reducedMotion || isMobile) {
     return (
       <section id="contacto" className="relative z-30 pt-[var(--sp-30)] pb-[var(--sp-10)] max-md:pt-[var(--sp-20)] max-md:pb-[var(--sp-10)]">
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] w-full">
@@ -73,12 +83,12 @@ export function Contact() {
           </p>
 
           <div>
-            <p className="font-[var(--font-body)] text-[length:24px] text-[var(--color-fg-subtle)] leading-[1.7] max-w-[700px] mt-[var(--sp-8)]">
+            <p className="font-[var(--font-body)] text-[length:24px] max-md:text-[length:var(--text-body-lg)] text-[var(--color-fg-subtle)] leading-[1.7] max-w-[700px] mt-[var(--sp-8)]">
               La primera conversación es para entender tu operación.
               <br />
               Sin compromiso, sin presentación de 40 slides.
             </p>
-            <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] max-md:flex-col max-md:items-stretch">
+            <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] max-md:mt-[var(--sp-8)] max-md:flex-col max-md:items-start">
               <Button asChild size="xl">
                 <a href="mailto:hola@kij.dev">
                   Charlemos
@@ -87,7 +97,7 @@ export function Contact() {
             </div>
           </div>
 
-          <p className="mt-[var(--sp-20)] pt-[var(--sp-20)] pb-0 text-[length:var(--text-caption)] text-[var(--color-fg-disabled)]">
+          <p className="mt-[var(--sp-20)] max-md:mt-[var(--sp-12)] pt-[var(--sp-20)] max-md:pt-[var(--sp-12)] pb-0 text-[length:var(--text-caption)] text-[var(--color-fg-disabled)]">
             &copy; {new Date().getFullYear()}
           </p>
         </div>
@@ -121,7 +131,7 @@ export function Contact() {
               <br />
               Sin compromiso, sin presentación de 40 slides.
             </p>
-            <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] max-md:flex-col max-md:items-stretch">
+            <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] max-md:flex-col max-md:items-start">
               <Button asChild size="xl">
                 <a href="mailto:hola@kij.dev">
                   Charlemos

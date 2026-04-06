@@ -29,18 +29,37 @@ class WebGLBoundary extends Component<
 
 /* ─── Static CSS fallback ──────────────────────────────── */
 
+const GRADIENT_DESKTOP = [
+  "radial-gradient(ellipse 130% 80% at 15% 85%, rgba(14,42,126,0.55) 0%, transparent 55%)",
+  "radial-gradient(ellipse 90% 70% at 85% 20%, rgba(126,103,14,0.2) 0%, transparent 50%)",
+  "radial-gradient(ellipse 70% 50% at 50% 60%, rgba(126,38,14,0.12) 0%, transparent 45%)",
+  "#080c16",
+].join(", ")
+
+/* Portrait-optimized: boosted presence, wider spread,
+   focal points tuned for narrow/tall viewport */
+const GRADIENT_MOBILE = [
+  "radial-gradient(ellipse 200% 60% at 15% 80%, rgba(14,42,126,0.5) 0%, transparent 60%)",
+  "radial-gradient(ellipse 170% 50% at 80% 15%, rgba(126,103,14,0.25) 0%, transparent 55%)",
+  "radial-gradient(ellipse 150% 40% at 50% 50%, rgba(126,38,14,0.15) 0%, transparent 50%)",
+  "radial-gradient(ellipse 120% 30% at 60% 70%, rgba(30,20,80,0.18) 0%, transparent 45%)",
+  "#080c16",
+].join(", ")
+
 function Fallback() {
   return (
-    <div
-      aria-hidden="true"
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: -1,
-        background:
-          "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(14,42,126,0.6) 0%, rgba(126,103,14,0.15) 50%, #000 100%)",
-      }}
-    />
+    <>
+      <div
+        aria-hidden="true"
+        className="max-md:hidden"
+        style={{ position: "fixed", inset: 0, zIndex: -1, background: GRADIENT_DESKTOP }}
+      />
+      <div
+        aria-hidden="true"
+        className="hidden max-md:block"
+        style={{ position: "fixed", inset: 0, zIndex: -1, background: GRADIENT_MOBILE }}
+      />
+    </>
   )
 }
 
@@ -269,19 +288,19 @@ export function ShaderBackground() {
     return () => mql.removeEventListener("change", onChange)
   }, [])
 
-  /* ── Deferred shader mount (desktop only) ── */
+  /* ── Deferred shader mount (desktop + mobile when WebGL available) ── */
   useEffect(() => {
-    if (isMobile || !glSupported) return
+    if (!glSupported) return
     let cancelled = false
     const rafId = requestAnimationFrame(() => {
       if (cancelled) return
       if ("requestIdleCallback" in window) {
         ;(window as any).requestIdleCallback(
           () => { if (!cancelled) setShaderReady(true) },
-          { timeout: 2000 },
+          { timeout: isMobile ? 3000 : 2000 },
         )
       } else {
-        setTimeout(() => { if (!cancelled) setShaderReady(true) }, 100)
+        setTimeout(() => { if (!cancelled) setShaderReady(true) }, isMobile ? 500 : 100)
       }
     })
     return () => { cancelled = true; cancelAnimationFrame(rafId) }
@@ -299,9 +318,9 @@ export function ShaderBackground() {
     let running = false
     let paused = false
     let lastRenderTime = 0
-    const LERP_SPEED = 0.045
+    const LERP_SPEED = isMobile ? 0.06 : 0.045
     const DIST_EPSILON = 0.001
-    const RENDER_INTERVAL = 1000 / 20 // ~20fps — sufficient for gradient blends
+    const RENDER_INTERVAL = 1000 / (isMobile ? 12 : 20) // mobile: ~12fps, desktop: ~20fps
 
     function applyBlend() {
       const pos = smoothPos.current
@@ -377,14 +396,49 @@ export function ShaderBackground() {
       document.removeEventListener("visibilitychange", onVisibility)
       cancelAnimationFrame(rafId)
     }
-  }, [shaderReady])
+  }, [shaderReady, isMobile])
 
   /* ── Render ── */
 
-  if (isMobile || !glSupported) return <Fallback />
+  if (!glSupported) return <Fallback />
 
   if (!shaderReady) return <Fallback />
 
+  /* Mobile: scroll-blended shader, reduced pixel density + frame rate */
+  if (isMobile) {
+    return (
+      <WebGLBoundary fallback={<Fallback />}>
+        <div
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: -1,
+            overflow: "hidden",
+            pointerEvents: "none",
+          }}
+        >
+          <ShaderGradientCanvas
+            style={{ width: "100%", height: "100%" }}
+            pixelDensity={1}
+            pointerEvents="none"
+          >
+            <ShaderGradient
+              {...(blended as any)}
+              uSpeed={reducedMotion ? 0 : 0.2}
+              grain="on"
+              uDensity={0.7}
+              uFrequency={4.5}
+              cDistance={1.6}
+              cameraZoom={11}
+            />
+          </ShaderGradientCanvas>
+        </div>
+      </WebGLBoundary>
+    )
+  }
+
+  /* Desktop: full shader with scroll-driven blend */
   return (
     <WebGLBoundary fallback={<Fallback />}>
       <div
