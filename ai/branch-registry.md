@@ -6,3 +6,4 @@
 | `refactor/motion-constants-and-dead-patterns` | review | Shared motion constants, dead reveal cleanup, explicit decorative reduced-motion |
 | `feat/puppeteer-visual-qa` | merged | Puppeteer-based visual QA system for landing-page layout checks |
 | `improve/puppeteer-severity-noise` | merged | Severity model, noise reduction, hard-fail rules for Puppeteer QA |
+| `improve/puppeteer-merge-gate` | review | Integrate Puppeteer visual QA as pre-merge quality gate |
