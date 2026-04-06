@@ -95,7 +95,7 @@ export function Portfolio() {
                       {project.result}
                     </p>
                   </div>
-                  <Button variant="outline" size="md" className="w-fit text-[var(--color-fg-reverse)] border-[var(--color-fg-reverse-disabled)] hover:bg-[rgba(0,0,0,0.06)] hover:border-[var(--color-fg-reverse-subtle)] hover:text-[var(--color-fg-reverse)]">
+                  <Button variant="outline" size="md" className="w-fit h-[var(--sp-12)] py-0 text-[var(--color-fg-reverse)] border-[var(--color-fg-reverse-disabled)] hover:bg-[rgba(0,0,0,0.06)] hover:border-[var(--color-fg-reverse-subtle)] hover:text-[var(--color-fg-reverse)]">
                     Ver caso
                   </Button>
                 </CardContent>

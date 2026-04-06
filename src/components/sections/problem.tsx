@@ -77,7 +77,7 @@ function PostIt({
 
 const CIRCLE_PATH = "M420 8 C550 3, 720 25, 770 70 C810 110, 790 160, 720 185 C640 205, 480 198, 380 195 C250 190, 80 180, 30 135 C-10 95, 20 35, 120 15 C210 0, 340 5, 440 12"
 
-function ClosingText() {
+function ClosingText({ isMobile }: { isMobile: boolean }) {
   const reducedMotion = useReducedMotion()
   const closingRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: closingProgress } = useScroll({
@@ -89,44 +89,56 @@ function ClosingText() {
   // because the parent starts at opacity 0 and whileInView would fire too early.
   const circleDraw = useSpring(useTransform(closingProgress, [0.55, 0.85], [0, 1]), SCROLL_SPRING)
 
+  const content = (
+    <div className="relative inline-block">
+      <p className="type-h3 text-[var(--color-fg-subtle)] text-shadow-smooth">
+        El problema no es tu equipo.
+      </p>
+      <p className="type-h3 text-[var(--color-fg)] text-shadow-smooth">
+        Es que el proceso depende de personas haciendo tareas que un sistema debería resolver.
+      </p>
+      {/* Hand-drawn circle highlight — hidden on mobile */}
+      <svg
+        className="absolute -inset-[40px] w-[calc(100%+80px)] h-[calc(100%+80px)] max-md:hidden pointer-events-none overflow-visible"
+        viewBox="0 0 800 200"
+        fill="none"
+      >
+        {reducedMotion ? (
+          <path
+            d={CIRCLE_PATH}
+            stroke="rgba(255,255,255,0.5)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            fill="none"
+          />
+        ) : (
+          <motion.path
+            d={CIRCLE_PATH}
+            stroke="rgba(255,255,255,0.5)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            style={{ pathLength: circleDraw }}
+          />
+        )}
+      </svg>
+    </div>
+  )
+
+  if (isMobile) {
+    return (
+      <div className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[var(--sp-20)] text-center overflow-clip">
+        {content}
+      </div>
+    )
+  }
+
   return (
     <motion.div
       ref={closingRef}
       className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] max-md:py-[var(--sp-20)] text-center overflow-clip"
       style={{ opacity: closingO, y: closingY }}
     >
-      <div className="relative inline-block">
-        <p className="type-h3 text-[var(--color-fg-subtle)] text-shadow-smooth">
-          El problema no es tu equipo.
-        </p>
-        <p className="type-h3 text-[var(--color-fg)] text-shadow-smooth">
-          Es que el proceso depende de personas haciendo tareas que un sistema debería resolver.
-        </p>
-        {/* Hand-drawn circle highlight — hidden on mobile */}
-        <svg
-          className="absolute -inset-[40px] w-[calc(100%+80px)] h-[calc(100%+80px)] max-md:hidden pointer-events-none overflow-visible"
-          viewBox="0 0 800 200"
-          fill="none"
-        >
-          {reducedMotion ? (
-            <path
-              d={CIRCLE_PATH}
-              stroke="rgba(255,255,255,0.5)"
-              strokeWidth="2"
-              strokeLinecap="round"
-              fill="none"
-            />
-          ) : (
-            <motion.path
-              d={CIRCLE_PATH}
-              stroke="rgba(255,255,255,0.5)"
-              strokeWidth="2"
-              strokeLinecap="round"
-              style={{ pathLength: circleDraw }}
-            />
-          )}
-        </svg>
-      </div>
+      {content}
     </motion.div>
   )
 }
@@ -183,7 +195,7 @@ export function Problem() {
             </div>
           </div>
         </section>
-        <ClosingText />
+        <ClosingText isMobile />
       </>
     )
   }
@@ -213,7 +225,7 @@ export function Problem() {
             ))}
           </div>
         </section>
-        <ClosingText />
+        <ClosingText isMobile={false} />
       </>
     )
   }
@@ -247,7 +259,7 @@ export function Problem() {
           </div>
         </div>
       </section>
-      <ClosingText />
+      <ClosingText isMobile={false} />
     </>
   )
 }

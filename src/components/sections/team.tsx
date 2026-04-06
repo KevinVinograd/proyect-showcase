@@ -6,6 +6,7 @@ const members = [
   {
     name: "Ian",
     role: "Diseño de sistemas y experiencia",
+    mobileRole: ["Diseño de sistemas", "y experiencia"],
     description:
       "Entiende el problema, define la solución y estructura cómo se usa.",
     image: "/Ian.webp",
@@ -13,12 +14,14 @@ const members = [
   {
     name: "Kevin",
     role: "Desarrollo y arquitectura",
+    mobileRole: ["Desarrollo", "y arquitectura"],
     description: "Construye el sistema. Backend, lógica, escalabilidad.",
     image: "/KV.webp",
   },
   {
     name: "Juan Cruz",
     role: "Operación y negocio",
+    mobileRole: ["Operación", "y negocio"],
     description:
       "Trae el contexto real. Asegura que lo que se construye funcione en la práctica.",
     image: "/JC.webp",
@@ -72,29 +75,32 @@ export function Team() {
             Tres roles, una misma mesa
           </h2>
           <div className="flex flex-col gap-[var(--sp-5)]">
-            {members.map((member) => (
-              <div key={member.name}>
-                <div className="aspect-[3/2] rounded-sm bg-[var(--color-surface-flat)] overflow-hidden">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    width={480}
-                    height={480}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="py-[var(--sp-3)]">
-                  <h3 className="font-[var(--font-heading)] text-[length:var(--text-body-lg)] font-[800] text-[var(--color-fg)] mb-[var(--sp-1)] leading-[1.2] tracking-[0]">
-                    {member.name}
-                  </h3>
-                  <div className="font-[var(--font-body)] text-[length:var(--text-caption)] font-[600] text-[var(--color-fg-disabled)] uppercase tracking-[0.06em]">
-                    {member.role}
+            {members.map((member, i) => {
+              const blockAlign = i === 1 ? "self-center" : i === 2 ? "self-end" : ""
+              return (
+                <div key={member.name} className={`w-1/2 ${blockAlign}`}>
+                  <div className="aspect-square rounded-sm bg-[var(--color-surface-flat)] overflow-hidden">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      width={480}
+                      height={480}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="py-[var(--sp-3)]">
+                    <h3 className="font-[var(--font-heading)] text-[length:var(--text-body-lg)] font-[800] text-[var(--color-fg)] mb-[var(--sp-1)] leading-[1.2] tracking-[0]">
+                      {member.name}
+                    </h3>
+                    <div className="font-[var(--font-body)] text-[length:var(--text-caption)] font-[600] text-[var(--color-fg-disabled)] uppercase tracking-[0.06em] leading-[1.4]">
+                      {member.mobileRole[0]}<br />{member.mobileRole[1]}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>

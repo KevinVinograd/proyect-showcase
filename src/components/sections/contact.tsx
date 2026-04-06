@@ -89,7 +89,7 @@ export function Contact() {
               Sin compromiso, sin presentación de 40 slides.
             </p>
             <div className="flex gap-[var(--sp-4)] mt-[var(--sp-10)] max-md:mt-[var(--sp-8)] max-md:flex-col max-md:items-start">
-              <Button asChild size={isMobile ? "md" : "xl"}>
+              <Button asChild size={isMobile ? "md" : "xl"} className={isMobile ? "h-[var(--sp-12)] py-0" : ""}>
                 <a href="mailto:hola@kij.dev">
                   Charlemos
                 </a>

@@ -184,7 +184,7 @@
   }
 
   .type-display {
-    font-size: clamp(36px, 11.5vw, 44px);
+    font-size: clamp(32px, 10.5vw, 52px);
     line-height: 1.05;
     letter-spacing: -0.03em;
   }
