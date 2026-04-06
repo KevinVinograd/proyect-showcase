@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import puppeteer from 'puppeteer';
+import { chromium, webkit } from 'playwright';
 import { mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -11,7 +11,7 @@ import { loadScenarios } from './scenarios/index.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '../..');
-const ARTIFACTS_DIR = resolve(ROOT, '.artifacts/puppeteer');
+const ARTIFACTS_DIR = resolve(ROOT, '.artifacts/playwright');
 
 // ---------------------------------------------------------------------------
 // CLI args
@@ -29,6 +29,7 @@ const mobileOnly = flag('mobile');
 const cleanOnly = flag('clean');
 const suiteName = option('suite') || 'all';
 const targetUrl = option('url') || 'http://localhost:5173';
+const browserFilter = option('browser'); // 'chromium', 'webkit', or null (both)
 
 // ---------------------------------------------------------------------------
 // Clean-only mode
@@ -37,6 +38,14 @@ if (cleanOnly) {
   cleanArtifacts(ARTIFACTS_DIR);
   process.exit(0);
 }
+
+// ---------------------------------------------------------------------------
+// Browser engines
+// ---------------------------------------------------------------------------
+const ENGINES = [
+  { name: 'Chromium', key: 'chromium', launcher: chromium },
+  { name: 'WebKit',   key: 'webkit',   launcher: webkit },
+];
 
 // ---------------------------------------------------------------------------
 // Main
@@ -61,34 +70,48 @@ async function main() {
     process.exit(2);
   }
 
-  console.log(`\n  Running ${scenarios.length} scenario${scenarios.length > 1 ? 's' : ''} across ${viewports.length} viewport${viewports.length > 1 ? 's' : ''}...`);
+  const engines = browserFilter
+    ? ENGINES.filter(e => e.key === browserFilter)
+    : ENGINES;
 
-  const browser = await puppeteer.launch({ headless: true });
+  if (engines.length === 0) {
+    console.error(`\n  \u2717 Unknown browser "${browserFilter}". Use: chromium, webkit\n`);
+    process.exit(2);
+  }
+
+  console.log(`\n  Running ${scenarios.length} scenario${scenarios.length > 1 ? 's' : ''} \u00D7 ${viewports.length} viewport${viewports.length > 1 ? 's' : ''} \u00D7 ${engines.length} engine${engines.length > 1 ? 's' : ''}...`);
+
   const results = [];
 
-  try {
+  for (const engine of engines) {
+    const browser = await engine.launcher.launch({ headless: true });
+
     for (const vp of viewports) {
-      const page = await browser.newPage();
-      await page.setViewport({ width: vp.width, height: vp.height });
-      await page.goto(targetUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+      const context = await browser.newContext({
+        viewport: { width: vp.width, height: vp.height },
+      });
+      const page = await context.newPage();
+      await page.goto(targetUrl, { waitUntil: 'networkidle', timeout: 30000 });
 
       // Scroll through page to trigger lazy-loaded sections
       await triggerLazyContent(page);
 
       // Take viewport screenshot (artifact)
-      const screenshotPath = resolve(ARTIFACTS_DIR, `${vp.width}x${vp.height}.png`);
+      const screenshotPath = resolve(ARTIFACTS_DIR, `${engine.key}-${vp.width}x${vp.height}.png`);
       await page.screenshot({ path: screenshotPath, fullPage: true });
 
       for (const scenario of scenarios) {
         try {
           const findings = await scenario.check(page, vp);
           results.push({
+            engine: engine.name,
             viewport: `${vp.name} (${vp.width}\u00D7${vp.height})`,
             scenario: scenario.name,
             findings: findings || [],
           });
         } catch (err) {
           results.push({
+            engine: engine.name,
             viewport: `${vp.name} (${vp.width}\u00D7${vp.height})`,
             scenario: scenario.name,
             findings: [{
@@ -99,9 +122,9 @@ async function main() {
         }
       }
 
-      await page.close();
+      await context.close();
     }
-  } finally {
+
     await browser.close();
   }
 

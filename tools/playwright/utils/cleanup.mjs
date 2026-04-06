@@ -1,8 +1,8 @@
 import { existsSync, rmSync } from 'node:fs';
 
 /**
- * Remove Puppeteer-generated temporary artifacts.
- * Only touches .artifacts/puppeteer — never deletes unrelated files.
+ * Remove Playwright-generated temporary artifacts.
+ * Only touches .artifacts/playwright — never deletes unrelated files.
  */
 export function cleanArtifacts(artifactsDir) {
   if (existsSync(artifactsDir)) {

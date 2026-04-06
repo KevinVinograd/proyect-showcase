@@ -1,6 +1,6 @@
-# Visual QA — Puppeteer
+# Visual QA — Playwright
 
-Automated structural layout QA for landing pages. Runs headless Chrome across a viewport matrix and reports layout issues.
+Automated structural layout QA for landing pages. Runs headless **Chromium and WebKit** across a viewport matrix and reports layout issues. WebKit coverage catches Safari/iOS-specific breakage that Chromium alone misses.
 
 **This is not visual regression testing.** It checks DOM geometry and computed styles — not rendered appearance. It does not replace manual design review.
 
@@ -26,6 +26,15 @@ Automated structural layout QA for landing pages. Runs headless Chrome across a 
 - Performance or loading-time problems
 
 This tool catches structural geometry problems. It is good at finding overflow, clipping, and sizing breakage. It cannot tell you whether the page looks right.
+
+## Browser engines
+
+| Engine | What it covers |
+|--------|---------------|
+| **Chromium** | Chrome, Edge, and Chromium-based browsers |
+| **WebKit** | Safari on macOS and iOS — catches flexbox, grid, and rendering differences specific to the WebKit engine |
+
+Both engines run by default. Use `--browser chromium` or `--browser webkit` to run a single engine.
 
 ## Severity model
 
@@ -63,25 +72,27 @@ npm run qa:visual    # terminal 2
 
 | Script | Purpose |
 |--------|---------|
-| `npm run qa:visual` | Run all checks, auto-clean artifacts |
-| `npm run qa:visual:keep` | Run all checks, preserve screenshots in `.artifacts/puppeteer/` |
+| `npm run qa:visual` | Run all checks (Chromium + WebKit), auto-clean artifacts |
+| `npm run qa:visual:keep` | Run all checks, preserve screenshots in `.artifacts/playwright/` |
 | `npm run qa:visual:mobile` | Run all checks on mobile viewports only (375, 390) |
 | `npm run qa:visual:grid` | Run only layout-suite checks (overflow + layout integrity) |
+| `npm run qa:visual:webkit` | Run all checks on WebKit only |
 | `npm run qa:visual:clean` | Delete leftover artifacts without running checks |
 
 ### CLI flags
 
 ```
---keep          Preserve screenshots and artifacts after run
---mobile        Run only on mobile viewports
---suite <name>  Filter scenarios: all, layout, navigation, images, mobile
---url <url>     Target URL (default: http://localhost:5173)
---clean         Delete artifacts directory and exit
+--keep              Preserve screenshots and artifacts after run
+--mobile            Run only on mobile viewports
+--suite <name>      Filter scenarios: all, layout, navigation, images, mobile
+--browser <engine>  Run single engine: chromium, webkit (default: both)
+--url <url>         Target URL (default: http://localhost:5173)
+--clean             Delete artifacts directory and exit
 ```
 
 ## Artifacts
 
-Temporary screenshots are written to `.artifacts/puppeteer/` during execution.
+Temporary screenshots are written to `.artifacts/playwright/` during execution. Screenshots are named `{engine}-{width}x{height}.png` (e.g. `webkit-375x812.png`).
 
 **Default:** auto-deleted after run completes.
 **`--keep`:** preserves them for debugging.
@@ -99,6 +110,7 @@ The `.artifacts/` directory is gitignored.
 
 ## Interpreting reports
 
+- Report groups findings by **engine** then **viewport**
 - **FAIL banner at top** = critical issues found, exit code 1
 - **PASS banner** = no critical issues, exit code 0 (read warnings anyway)
 - Critical and warning findings are shown in full with selectors and details
@@ -111,7 +123,7 @@ The `.artifacts/` directory is gitignored.
 - Selector deduplication uses first 2 CSS classes. Multiple distinct elements with the same tag+classes are reported once.
 - Touch target threshold is 32px, not the WCAG-recommended 44px.
 - Lazy-loaded content depends on a scroll-through trigger. Race conditions with slow resources are possible.
-- The dev server must be restarted for code changes to be detected by headless Chrome (Vite HMR doesn't propagate to headless sessions).
+- Playwright's WebKit is not identical to Safari on a real device — it is a close approximation using the WebKit engine, but minor rendering differences may exist.
 
 ## Merge gate
 
@@ -121,7 +133,7 @@ The visual QA system serves as a pre-merge quality gate for landing-page changes
 npm run qa:gate
 ```
 
-This builds the project, starts a preview server, runs all visual QA checks, and exits with a merge-blocking code if critical issues are found.
+This builds the project, starts a preview server, runs all visual QA checks (Chromium + WebKit), and exits with a merge-blocking code if critical issues are found.
 
 ### Merge-blocking rule
 
@@ -146,6 +158,7 @@ Not required for: documentation, tooling, CI config, dependency bumps, or change
 
 - Structural geometry: overflow, sizing, navigation position, image dimensions
 - Across 5 viewports from mobile (375px) to desktop (1440px)
+- Across 2 engines: Chromium and WebKit
 - Against a real production build, not a dev server
 
 ### What it does NOT enforce
@@ -163,15 +176,26 @@ The gate is enforced locally and through PR visibility:
 - `npm run qa:gate` — self-contained command, merge-blocking exit code
 - PR template — checklist makes the gate requirement visible during review
 
-**CI enforcement is not yet active.** A GitHub Actions workflow (`visual-qa.yml`) was designed but could not be deployed due to workflow-scope token limitations. Adding automated CI enforcement is a pending follow-up.
+**CI enforcement is not yet active.** Adding automated CI enforcement is a pending follow-up.
 
 ### Debugging a failure
 
 1. Run `npm run qa:gate -- --keep` to preserve screenshots
-2. Check `.artifacts/puppeteer/` for full-page screenshots at each viewport
+2. Check `.artifacts/playwright/` for full-page screenshots at each engine + viewport
 3. Read the terminal report — critical findings include the CSS selector and description
-4. Fix the structural issue and re-run
+4. If the issue is WebKit-only, run `npm run qa:visual:webkit --keep` against dev server for faster iteration
+5. Fix the structural issue and re-run
+
+## Browser installation
+
+Playwright requires browser binaries. Install them once:
+
+```bash
+npx playwright install chromium webkit
+```
+
+This downloads Chromium and WebKit binaries to a shared cache. They do not live in the repo.
 
 ## Reuse in other repos
 
-Copy `tools/puppeteer/`, add the `qa:*` scripts to `package.json`, ensure `.artifacts/` is gitignored, and install `puppeteer` as a devDependency.
+Copy `tools/playwright/`, add the `qa:*` scripts to `package.json`, ensure `.artifacts/` is gitignored, install `playwright` as a devDependency, and run `npx playwright install chromium webkit`.
