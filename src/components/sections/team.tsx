@@ -68,7 +68,7 @@ export function Team() {
       <section id="equipo" className="relative z-20 py-[var(--sp-12)]">
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Quiénes somos</p>
-          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-8)] leading-[36px] text-shadow-smooth">
+          <h2 className="type-h3 text-[var(--color-fg)] text-shadow-smooth mb-[var(--sp-8)]">
             Tres roles, una misma mesa
           </h2>
           <div className="flex flex-col gap-[var(--sp-5)]">

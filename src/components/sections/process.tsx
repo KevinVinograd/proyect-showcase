@@ -82,9 +82,9 @@ export function Process() {
     return (
       <section id="proceso" className="relative py-[var(--sp-20)]">
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
-          <div className="mb-[var(--sp-10)]">
+          <div className="mb-[var(--sp-8)]">
             <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
-            <h2 className="font-[var(--font-heading)] text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[36px] text-shadow-smooth">
+            <h2 className="type-h3 text-[var(--color-fg)] text-shadow-smooth">
               De problema a sistema en cuatro pasos
             </h2>
           </div>

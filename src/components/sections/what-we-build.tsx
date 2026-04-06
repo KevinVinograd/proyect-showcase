@@ -63,7 +63,7 @@ export function WhatWeBuild() {
       <section id="servicios" className="py-[var(--sp-20)]">
         <div className="mb-[var(--sp-8)]">
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Qué automatizamos</p>
-          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[1.15] text-shadow-smooth">
+          <h2 className="type-h3 text-[var(--color-fg)] text-shadow-smooth">
             Lo que cambia cuando dejás de operar a mano
           </h2>
         </div>

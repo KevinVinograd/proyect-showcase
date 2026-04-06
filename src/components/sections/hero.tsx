@@ -133,17 +133,7 @@ export function Hero() {
             <span className="block">Automatizamos</span>
             <span className="block">tu operación.</span>
           </h1>
-          <p
-            className="text-fg mt-[var(--sp-6)]"
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "18px",
-              lineHeight: "26px",
-              fontWeight: 600,
-              maxWidth: "300px",
-              letterSpacing: "-0.01em",
-            }}
-          >
+          <p className="text-fg mt-[var(--sp-6)] font-[var(--font-body)] text-[length:var(--text-body-lg)] font-[600] leading-[1.5] max-w-[300px] tracking-[-0.01em]">
             Planillas, carga manual, WhatsApp.
             <br />
             Lo reemplazamos con software a medida.

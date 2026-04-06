@@ -72,7 +72,7 @@ export function Portfolio() {
       <section id="portfolio" className="pt-[var(--sp-8)] pb-[var(--sp-20)]">
         <div className="mb-[var(--sp-8)]">
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Casos reales</p>
-          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[36px] text-shadow-smooth">
+          <h2 className="type-h3 text-[var(--color-fg)] text-shadow-smooth">
             Proyectos en producción
           </h2>
         </div>
