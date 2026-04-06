@@ -166,7 +166,7 @@ export function Hero() {
 
   return (
     <section ref={sectionRef} id="hero" aria-label="Inicio" className="relative h-[150vh]">
-      <div className="sticky top-0 h-screen" style={{ clipPath: "inset(0 0 -200px 0)" }}>
+      <div className="sticky top-0 h-screen" style={{ WebkitClipPath: "inset(0 0 -200px 0)", clipPath: "inset(0 0 -200px 0)" }}>
         {/* Title block — anchored at bottom-80px */}
         <motion.div
           ref={containerRef}

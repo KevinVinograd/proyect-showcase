@@ -419,7 +419,7 @@ export function ShaderBackground() {
           }}
         >
           <ShaderGradientCanvas
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%", transform: "scale(1.25)", transformOrigin: "center" }}
             pixelDensity={1}
             pointerEvents="none"
           >
@@ -452,7 +452,7 @@ export function ShaderBackground() {
         }}
       >
         <ShaderGradientCanvas
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "100%", transform: "scale(1.25)", transformOrigin: "center" }}
           pixelDensity={1}
           pointerEvents="none"
         >
