@@ -8,7 +8,12 @@
     "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && node scripts/prerender.mjs",
     "build:client": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "qa:visual": "node tools/puppeteer/runner.mjs",
+    "qa:visual:keep": "node tools/puppeteer/runner.mjs --keep",
+    "qa:visual:mobile": "node tools/puppeteer/runner.mjs --mobile",
+    "qa:visual:grid": "node tools/puppeteer/runner.mjs --suite layout",
+    "qa:visual:clean": "node tools/puppeteer/runner.mjs --clean"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
@@ -37,6 +42,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
     "lucide-react": "^1.7.0",
+    "puppeteer": "^24.40.0",
     "tailwindcss": "^4.2.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.57.0",
