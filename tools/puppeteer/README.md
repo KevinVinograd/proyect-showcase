@@ -157,9 +157,13 @@ Not required for: documentation, tooling, CI config, dependency bumps, or change
 
 This is structural layout QA, not full visual QA. It catches breakage, not design drift.
 
-### CI integration
+### Current enforcement level
 
-The `visual-qa.yml` GitHub Actions workflow runs the gate automatically on PRs to `main` that modify `src/`, `public/`, or `index.html`. Screenshots are uploaded as artifacts on failure.
+The gate is enforced locally and through PR visibility:
+- `npm run qa:gate` — self-contained command, merge-blocking exit code
+- PR template — checklist makes the gate requirement visible during review
+
+**CI enforcement is not yet active.** A GitHub Actions workflow (`visual-qa.yml`) was designed but could not be deployed due to workflow-scope token limitations. Adding automated CI enforcement is a pending follow-up.
 
 ### Debugging a failure
 
