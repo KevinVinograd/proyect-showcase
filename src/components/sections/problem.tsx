@@ -100,7 +100,7 @@ function ClosingText({ isMobile }: { isMobile: boolean }) {
       {/* Hand-drawn circle highlight — hidden on mobile */}
       <svg
         className="absolute -inset-[40px] w-[calc(100%+80px)] h-[calc(100%+80px)] max-md:hidden pointer-events-none overflow-visible"
-        viewBox="0 0 800 200"
+        viewBox="-20 -5 840 215"
         fill="none"
       >
         {reducedMotion ? (
@@ -135,7 +135,7 @@ function ClosingText({ isMobile }: { isMobile: boolean }) {
   return (
     <motion.div
       ref={closingRef}
-      className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] max-md:py-[var(--sp-20)] text-center overflow-clip"
+      className="relative max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)] py-[200px] max-md:py-[var(--sp-20)] text-center"
       style={{ opacity: closingO, y: closingY }}
     >
       {content}
