@@ -102,9 +102,9 @@ function ClosingText() {
         <p className="type-h3 text-[var(--color-fg)] text-shadow-smooth">
           Es que el proceso depende de personas haciendo tareas que un sistema debería resolver.
         </p>
-        {/* Hand-drawn circle highlight */}
+        {/* Hand-drawn circle highlight — hidden on mobile */}
         <svg
-          className="absolute -inset-[40px] w-[calc(100%+80px)] h-[calc(100%+80px)] max-md:-inset-[16px] max-md:w-[calc(100%+32px)] max-md:h-[calc(100%+32px)] pointer-events-none overflow-visible"
+          className="absolute -inset-[40px] w-[calc(100%+80px)] h-[calc(100%+80px)] max-md:hidden pointer-events-none overflow-visible"
           viewBox="0 0 800 200"
           fill="none"
         >

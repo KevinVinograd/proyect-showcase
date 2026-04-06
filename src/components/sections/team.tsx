@@ -74,7 +74,7 @@ export function Team() {
           <div className="flex flex-col gap-[var(--sp-5)]">
             {members.map((member) => (
               <div key={member.name}>
-                <div className="aspect-[3/4] rounded-sm bg-[var(--color-surface-flat)] overflow-hidden">
+                <div className="aspect-[3/2] rounded-sm bg-[var(--color-surface-flat)] overflow-hidden">
                   <img
                     src={member.image}
                     alt={member.name}
@@ -107,7 +107,7 @@ export function Team() {
       <section id="equipo" className="relative z-20 py-[var(--sp-30)] max-md:py-[var(--sp-20)]">
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Quiénes somos</p>
-          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-3)] leading-[60px] max-md:leading-[36px] text-shadow-smooth">
+          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-3)] leading-[60px] max-md:leading-[40px] text-shadow-smooth">
             Tres roles, una misma mesa
           </h2>
           <div className="mb-[var(--sp-12)]" />
@@ -160,7 +160,7 @@ export function Team() {
       >
         <motion.div style={{ opacity: titleO, y: titleY }}>
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Quiénes somos</p>
-          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-3)] leading-[60px] max-md:leading-[36px] text-shadow-smooth">
+          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] mb-[var(--sp-3)] leading-[60px] max-md:leading-[40px] text-shadow-smooth">
             Tres roles, una misma mesa
           </h2>
           <div className="mb-[var(--sp-12)]" />

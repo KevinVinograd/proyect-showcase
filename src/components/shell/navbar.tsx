@@ -16,6 +16,7 @@ export function Navbar() {
     () => typeof window !== "undefined" && window.innerWidth < 768,
   )
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -63,6 +64,8 @@ export function Navbar() {
       const atBottom =
         scrollY + vh >= document.documentElement.scrollHeight - 50
 
+      setScrolled(scrollY > 10)
+
       if (atBottom) {
         setActive("contacto")
         return
@@ -86,7 +89,7 @@ export function Navbar() {
   /* ── Mobile nav ── */
   if (isMobile) {
     return (
-      <div ref={menuRef} className="fixed top-4 left-0 right-0 z-50 px-[var(--sp-12)]">
+      <div ref={menuRef} className="fixed left-0 right-0 z-50 px-[var(--sp-12)] transition-[top] duration-300 ease-in-out" style={{ top: scrolled ? 16 : 24 }}>
         <nav className="flex items-center justify-between h-11 px-4 rounded-full bg-white/[0.06] border border-white/[0.10] backdrop-blur-xl shadow-[0_2px_12px_rgba(0,0,0,0.2)]">
           <span className="font-[var(--font-heading)] text-[17px] font-[800] text-white tracking-[-0.02em] select-none">
             Backbn

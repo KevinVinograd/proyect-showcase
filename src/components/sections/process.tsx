@@ -124,7 +124,7 @@ export function Process() {
         <div className="max-w-[var(--container-hero)] mx-auto px-[var(--sp-6)]">
           <div className="mb-[var(--sp-10)]">
             <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
-            <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[36px] text-shadow-smooth">
+            <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[40px] text-shadow-smooth">
               De problema a sistema en cuatro pasos
             </h2>
           </div>
@@ -165,7 +165,7 @@ export function Process() {
           style={{ opacity: headingO, y: headingY }}
         >
           <p className="type-overline text-shadow-smooth mb-[var(--sp-3)]">Cómo trabajamos</p>
-          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[36px] text-shadow-smooth">
+          <h2 className="font-[var(--font-heading)] text-[length:var(--text-h2)] max-md:text-[length:var(--text-h3)] font-[800] text-[var(--color-fg)] tracking-[-0.02em] leading-[60px] max-md:leading-[40px] text-shadow-smooth">
             De problema a sistema en cuatro pasos
           </h2>
         </motion.div>
