@@ -8,7 +8,6 @@ export async function check(page, viewport) {
 
     for (const img of images) {
       const rect = img.getBoundingClientRect();
-      // Skip invisible images
       if (rect.width === 0 && rect.height === 0) continue;
       if (!img.naturalWidth || !img.naturalHeight) continue;
 
@@ -16,8 +15,6 @@ export async function check(page, viewport) {
       const renderedRatio = rect.width / rect.height;
       const ratioDiff = Math.abs(naturalRatio - renderedRatio) / naturalRatio;
 
-      // Check for aspect-ratio distortion (> 8% difference)
-      // Skip if object-fit is set (intentional cropping/containment)
       const style = window.getComputedStyle(img);
       const objectFit = style.objectFit;
 
@@ -26,14 +23,14 @@ export async function check(page, viewport) {
           level: 'warning',
           message: 'Image may be distorted (aspect ratio mismatch, no object-fit)',
           selector: imgSelector(img),
-          detail: `natural: ${img.naturalWidth}x${img.naturalHeight} (${naturalRatio.toFixed(2)}) → rendered: ${Math.round(rect.width)}x${Math.round(rect.height)} (${renderedRatio.toFixed(2)})`,
+          detail: `natural: ${img.naturalWidth}x${img.naturalHeight} (${naturalRatio.toFixed(2)}) \u2192 rendered: ${Math.round(rect.width)}x${Math.round(rect.height)} (${renderedRatio.toFixed(2)})`,
         });
       }
 
-      // Check for images rendered at 0 in one dimension
+      // Zero-dimension render — image is broken
       if ((rect.width < 1 || rect.height < 1) && img.naturalWidth > 0) {
         findings.push({
-          level: 'error',
+          level: 'critical',
           message: 'Image rendered with zero dimension',
           selector: imgSelector(img),
           detail: `rendered: ${Math.round(rect.width)}x${Math.round(rect.height)}`,

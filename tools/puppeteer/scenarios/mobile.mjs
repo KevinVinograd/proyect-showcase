@@ -17,14 +17,14 @@ export async function check(page, viewport) {
       const style = window.getComputedStyle(el);
       const s = sel(el);
 
-      // Fixed pixel widths wider than viewport
+      // Fixed pixel widths wider than viewport — structural breakage
       const widthVal = style.width;
       if (widthVal.endsWith('px')) {
         const px = parseFloat(widthVal);
         if (px > vw && !flagged.has('fw:' + s)) {
           flagged.add('fw:' + s);
           findings.push({
-            level: 'error',
+            level: 'critical',
             message: 'Fixed width exceeds mobile viewport',
             selector: s,
             detail: `width: ${widthVal} (viewport: ${vw}px)`,
@@ -47,17 +47,17 @@ export async function check(page, viewport) {
         }
       }
 
-      // Touch targets too small (interactive elements)
+      // Touch targets too small
       const tag = el.tagName.toLowerCase();
       const isInteractive = tag === 'a' || tag === 'button' || el.getAttribute('role') === 'button' || el.onclick;
       if (isInteractive && rect.width > 0 && rect.height > 0) {
         if (rect.height < 32 && rect.width < 32 && !flagged.has('touch:' + s)) {
           flagged.add('touch:' + s);
           findings.push({
-            level: 'warning',
+            level: 'info',
             message: 'Touch target may be too small',
             selector: s,
-            detail: `${Math.round(rect.width)}x${Math.round(rect.height)}px (recommend >= 44x44)`,
+            detail: `${Math.round(rect.width)}x${Math.round(rect.height)}px (recommend \u2265 44x44)`,
           });
         }
       }

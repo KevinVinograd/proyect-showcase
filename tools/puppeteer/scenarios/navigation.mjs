@@ -13,10 +13,10 @@ export async function check(page, viewport) {
 
     const navRect = nav.getBoundingClientRect();
 
-    // Nav wider than viewport
+    // Nav wider than viewport — structural breakage
     if (navRect.width > vw + 1) {
       findings.push({
-        level: 'error',
+        level: 'critical',
         message: 'Navigation wider than viewport',
         selector: sel(nav),
         detail: `${Math.round(navRect.width)}px (viewport: ${vw}px)`,
@@ -26,24 +26,24 @@ export async function check(page, viewport) {
     // Nav extending beyond right edge
     if (navRect.right > vw + 2) {
       findings.push({
-        level: 'error',
+        level: 'critical',
         message: 'Navigation extends beyond right viewport edge',
         selector: sel(nav),
         detail: `right: ${Math.round(navRect.right)}px`,
       });
     }
 
-    // Nav clipped off-screen (left or top)
+    // Nav positioned off-screen entirely
     if (navRect.right < 0 || navRect.bottom < 0) {
       findings.push({
-        level: 'error',
+        level: 'critical',
         message: 'Navigation is positioned off-screen',
         selector: sel(nav),
         detail: `rect: ${Math.round(navRect.left)},${Math.round(navRect.top)} ${Math.round(navRect.width)}x${Math.round(navRect.height)}`,
       });
     }
 
-    // Check nav links visibility
+    // All nav links invisible
     const links = nav.querySelectorAll('a, button');
     let hiddenCount = 0;
     for (const link of links) {
@@ -58,7 +58,7 @@ export async function check(page, viewport) {
       });
     }
 
-    // Check nav internal overflow
+    // Nav internal overflow
     if (nav.scrollWidth > nav.clientWidth + 1) {
       const style = window.getComputedStyle(nav);
       if (!style.overflow.includes('hidden') && !style.overflowX.includes('hidden')) {

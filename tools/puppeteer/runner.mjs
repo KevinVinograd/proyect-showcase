@@ -115,8 +115,8 @@ async function main() {
     cleanArtifacts(ARTIFACTS_DIR);
   }
 
-  const hasErrors = results.some(r => r.findings.some(f => f.level === 'error'));
-  process.exit(hasErrors ? 1 : 0);
+  const hasCritical = results.some(r => r.findings.some(f => f.level === 'critical'));
+  process.exit(hasCritical ? 1 : 0);
 }
 
 main().catch(err => {

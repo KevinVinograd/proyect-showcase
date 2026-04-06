@@ -1,26 +1,54 @@
 # Visual QA — Puppeteer
 
-Automated layout and visual QA for landing pages. Runs headless Chrome across a viewport matrix and reports layout issues.
+Automated structural layout QA for landing pages. Runs headless Chrome across a viewport matrix and reports layout issues.
 
-## What it checks
+**This is not visual regression testing.** It checks DOM geometry and computed styles — not rendered appearance. It does not replace manual design review.
 
-| Scenario | Suite | What it detects |
-|----------|-------|-----------------|
-| Horizontal Overflow | layout | Document-level scroll, elements wider than viewport, right-edge overflow |
-| Layout Integrity | layout | Children overflowing containers, text content exceeding bounds |
-| Navigation | navigation | Nav wider than viewport, off-screen nav, internal overflow, hidden links |
+## What it detects
+
+| Scenario | Suite | What it checks |
+|----------|-------|----------------|
+| Horizontal Overflow | layout | Document-level scroll, elements wider than viewport |
+| Layout Integrity | layout | Children overflowing parents, text exceeding bounds |
+| Navigation | navigation | Nav wider than viewport, off-screen, internal overflow |
 | Image Sizing | images | Aspect-ratio distortion (without object-fit), zero-dimension renders |
 | Mobile Layout | mobile | Fixed widths exceeding viewport, min-width overflow, small touch targets |
+
+## What it does NOT detect
+
+- Visual regressions (pixel-level comparison)
+- Color, font, or styling correctness
+- Z-index stacking issues
+- Opacity or visibility problems
+- Content correctness or missing text
+- Layout issues masked by `overflow: hidden/clip` on parent containers
+- Issues that only appear after user interaction (hover, click, scroll-triggered animations)
+- Performance or loading-time problems
+
+This tool catches structural geometry problems. It is good at finding overflow, clipping, and sizing breakage. It cannot tell you whether the page looks right.
+
+## Severity model
+
+Every finding has one of three severity levels:
+
+| Level | Meaning | Exit behavior |
+|-------|---------|---------------|
+| **critical** | Page is structurally broken — horizontal scroll, elements wider than viewport, nav off-screen, broken images | Exit code 1 (hard fail) |
+| **warning** | Likely a real problem worth investigating — elements past viewport edge, child overflow >50px, image distortion, hidden nav links | Exit code 0 (pass) |
+| **info** | Minor or expected — small child overflow, text overflow, small touch targets | Exit code 0, capped in report to reduce noise |
+
+**Exit code 1 means critical issues were found and must be fixed.**
+**Exit code 0 means no critical issues.** Warnings and info may still be present — read the report.
 
 ## Viewport matrix
 
 | Name | Size |
 |------|------|
-| iPhone SE | 375×812 |
-| iPhone 14 | 390×844 |
-| iPad | 768×1024 |
-| Laptop | 1280×800 |
-| Desktop | 1440×900 |
+| iPhone SE | 375x812 |
+| iPhone 14 | 390x844 |
+| iPad | 768x1024 |
+| Laptop | 1280x800 |
+| Desktop | 1440x900 |
 
 ## Usage
 
@@ -53,11 +81,11 @@ npm run qa:visual    # terminal 2
 
 ## Artifacts
 
-Temporary files (screenshots per viewport) are written to `.artifacts/puppeteer/` during execution.
+Temporary screenshots are written to `.artifacts/puppeteer/` during execution.
 
-**Default behavior:** artifacts are auto-deleted after the run completes.
-
-Use `--keep` to preserve them for debugging. Use `npm run qa:visual:clean` to manually remove leftovers.
+**Default:** auto-deleted after run completes.
+**`--keep`:** preserves them for debugging.
+**`npm run qa:visual:clean`:** manual cleanup.
 
 The `.artifacts/` directory is gitignored.
 
@@ -65,17 +93,26 @@ The `.artifacts/` directory is gitignored.
 
 | Code | Meaning |
 |------|---------|
-| 0 | All checks passed |
-| 1 | Errors found |
+| 0 | No critical issues (warnings/info may exist) |
+| 1 | Critical issues found — must fix |
 | 2 | Runner failure (server unreachable, bad args, crash) |
 
-## Limitations
+## Interpreting reports
 
-- Layout checks rely on computed DOM geometry — CSS `overflow: hidden` containers mask issues by design.
-- Image distortion detection only flags images without `object-fit`. Images with `object-fit: cover/contain` are assumed intentional.
-- Touch target warnings use 32×32px threshold; WCAG recommends 44×44px.
-- Cannot detect visual regressions (pixel comparison) — this checks structure, not appearance.
+- **FAIL banner at top** = critical issues found, exit code 1
+- **PASS banner** = no critical issues, exit code 0 (read warnings anyway)
+- Critical and warning findings are shown in full with selectors and details
+- Info findings are capped at 3 per scenario per viewport to reduce noise
+- If info findings are capped, the count of hidden findings is shown
 
-## Reuse in other landing repos
+## Known limitations
 
-Copy the `tools/puppeteer/` directory, add the `qa:*` scripts to `package.json`, ensure `.artifacts/` is gitignored, and install `puppeteer` as a devDependency.
+- `overflow-x: clip/hidden` on `<html>` or `<body>` suppresses the document-level horizontal scroll check. Element-level width checks still work.
+- Selector deduplication uses first 2 CSS classes. Multiple distinct elements with the same tag+classes are reported once.
+- Touch target threshold is 32px, not the WCAG-recommended 44px.
+- Lazy-loaded content depends on a scroll-through trigger. Race conditions with slow resources are possible.
+- The dev server must be restarted for code changes to be detected by headless Chrome (Vite HMR doesn't propagate to headless sessions).
+
+## Reuse in other repos
+
+Copy `tools/puppeteer/`, add the `qa:*` scripts to `package.json`, ensure `.artifacts/` is gitignored, and install `puppeteer` as a devDependency.
